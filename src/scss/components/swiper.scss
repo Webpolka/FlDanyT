@@ -1,0 +1,147 @@
+/* ---------------------- Swiper ---------------------- */
+:root {
+	--swiper-navigation-sides-offset: -25px;
+
+	@include lg {
+		--swiper-navigation-sides-offset: -20px;
+	}
+}
+
+// Slider
+.sliderModal,
+.slider {
+	position: relative;
+
+	.product-slide,
+	.product-variant {
+		display: block;
+		border-radius: 12px;		
+		border: 1px solid transparent;
+		cursor: pointer;
+		overflow: hidden;
+
+		transition: all 0.3s ease-in-out;
+		&:hover {
+			border: 1px solid rgb(0, 150, 211, 0.25);
+		}
+
+		img {
+			display: block;
+			width: 100%;
+			height: auto;
+			object-fit: cover;
+			overflow: hidden;
+		}
+	}
+
+	&.hovered {
+		.swiper-button-prev {
+			 transform: translateX(0);
+		}
+
+		.swiper-button-next {
+			transform: translateX(0);
+		}
+	}
+}
+
+
+
+.swiper.product-variant {
+	display: block;
+	border-radius: 12px;
+	overflow: hidden;
+	border: 1px solid transparent;
+	transition: all 0.3s ease-in-out;
+}
+
+.swiper.product-variant:hover {
+	border: 1px solid rgba(0, 150, 211, 0.25);
+}
+
+.swiper.product-variant img {
+	display: block;
+	width: 100%;
+	height: auto;
+	object-fit: cover;
+}
+
+/* Стрелки Swiper */
+.swiper-button-prev,
+.swiper-button-next {
+	width: 50px;
+	height: 50px;
+	background-color: var(--white);
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	top: 50%;
+	cursor: pointer;
+	z-index: 10;
+    transition: all 0.65s ease-in-out;
+
+	@include lg {
+		width: 40px;
+		height: 40px;
+	}
+
+	@include sm {
+		display: none;
+	}
+}
+
+.swiper-button-prev {
+	left: 0;
+    transform: translateX(-30vw);
+}
+
+.swiper-button-next {
+	right: 0;
+    transform: translateX(30vw);
+}
+
+.swiper-button-prev svg,
+.swiper-button-next svg {
+	width: 100%;
+	aspect-ratio: 1/1;
+	fill: #bbbbba;
+	transition: fill 0.3s ease-in-out;
+}
+
+.swiper-button-prev:hover svg,
+.swiper-button-next:hover svg {
+	fill: var(--accent);
+}
+
+/* Пагинация */
+.swiper-pagination {
+	position: relative !important;
+	width: 100%;
+	text-align: center;
+	padding-top: 5px;
+
+	display: none;
+
+	@include sm {
+		display: block;
+	}
+}
+
+.swiper-pagination-bullet {
+	width: 5px;
+	height: 5px;
+	background: #bbbbba;
+	opacity: 0.5;
+	margin: 0 4px;
+	display: inline-block;
+	border-radius: 50%;
+	cursor: pointer;
+	transition: all 0.3s ease-in-out;
+}
+
+.swiper-pagination-bullet-active {
+	background: var(--accent);
+	opacity: 1;
+}

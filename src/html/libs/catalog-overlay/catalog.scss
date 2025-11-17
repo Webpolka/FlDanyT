@@ -1,0 +1,406 @@
+
+/* ------------------------------------------------------------------------------------------------------------------------------
+CATALOG OVERLAY (БОЛЬШОЕ МЕНЮ КАТАЛОГА)
+--------------------------------------------------------------------------------------------------------------------------------*/
+.catalog {
+	--catalog-bg: rgb(0, 0, 127);
+	--catalog-hover: red;
+    --header-height: 0;
+
+	opacity: 0;
+	visibility: hidden;
+
+	position: absolute;
+	left: 0;
+	right: 0;
+
+	width: 100%;
+	top: 100%;
+
+	background-color: var(--catalog-bg);
+	min-height: 100vh;
+
+	z-index: 10000;
+	transition: all 0.3s ease-in-out;
+
+	&:before {
+		position: absolute;
+		content: "";
+		height: 100%;
+		top: 0;
+		left: -100vw;
+		bottom: 0;
+		width: 100vw;
+		background-color: var(--catalog-bg);
+	}
+
+	&:after {
+		position: absolute;
+		content: "";
+		height: 100%;
+		top: 0;
+		right: -100vw;
+		bottom: 0;
+		width: 100vw;
+		background-color: var(--catalog-bg);
+	}
+
+	&.active,
+	&--active {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	ul {
+		list-style: none;
+	}
+	button {
+		appearance: none;
+	}
+
+	// Все меню левая и правая сторона вместе
+	&__menu {
+		display: flex;
+		position: relative;
+		width: 100%;		
+		max-width: var(--container-width);
+		margin: 10px auto 0;
+
+
+		@include lg {
+			display: block;
+		}
+		@include sm {
+			margin: 0 auto;
+		}
+	}
+
+	// Левая часть навигация по категориям
+	&__sidebar {     
+		@include lg {
+			width: 100%;
+		}
+	}
+
+	// Обвертка для категорий
+	&__catswrapper {
+		position: relative;
+		flex-shrink: 0;
+		width: 425px;
+		padding: 15px 0;
+
+		@include lg {
+			padding-block-start: 15px;
+			width: 100%;
+		}
+
+		@include sm {
+			padding-top: 10px;
+		}
+	}
+
+	// Категории
+	&__cats {
+		box-sizing: content-box;
+		overflow-y: auto;
+		max-height: calc(100vh - var(--header-height));
+		padding-right: 25px;
+
+		&::-webkit-scrollbar {
+			inline-size: 2px;
+			background: rgb(255, 255, 255, 0.18);
+		}
+
+		&::-webkit-scrollbar-track {
+			background: rgb(255, 255, 255, 0.18);
+		}
+
+		&::-webkit-scrollbar-thumb {
+			border-radius: 10px;
+			background-color: var(--white);
+			cursor: pointer;
+
+			@include any-hover {
+				background-color: transparent;
+			}
+		}
+
+		@include lg {
+			box-sizing: border-box;
+			padding-right: 0;
+			padding-bottom: 25px;
+			width: 100%;
+
+			&::-webkit-scrollbar {
+				inline-size: 0;
+			}
+		}
+
+		// Пункт категории
+		&-item {
+			display: flex;
+			min-height: 52px;
+			align-items: center;
+			justify-content: space-between;
+			padding-inline: 23px;
+
+			overflow: hidden;
+			border-radius: rem(0);
+
+			@include lg {
+				padding-inline: 0;
+				border: 1px solid rgb(0, 0, 0, 0);
+				margin-bottom: 4px;
+			}
+
+			@media (min-width: 992px) {
+				&.active {
+					background-color: var(--catalog-hover);
+				}
+			}
+
+			@include sm {
+				margin-bottom: 0;
+				border: none;
+			}
+		}
+
+		// Ссылка в категории
+		&-link {
+			display: inline-flex;
+			align-items: center;
+			gap: 15px;
+			width: 100%;
+
+			min-height: 47px;
+			color: var(--white);
+			transition: color 0.2s ease-in-out;
+			font-weight: 500;
+			font-size: rem(16);
+			text-decoration: none;
+
+			@include lg {
+				&:hover {
+					text-decoration: underline;
+				}
+			}
+
+			@include sm {
+				font-size: 14px;
+			}
+
+			svg {
+				width: 26px;
+				height: 26px;
+
+				@include sm {
+					width: 21px;
+					height: 21px;
+				}
+			}
+		}
+
+		// Стрелка в левой части (выбор категории)
+		&-arrow {
+			flex-shrink: 0;
+
+			width: 30px;
+			height: 20px;
+			background-image: url("../../icons/right-chevron.svg");
+			background-repeat: no-repeat;
+			background-size: 75%;
+			background-position: right center;
+			cursor: pointer;
+
+			@include lg {
+				display: block;
+			}
+			@include sm {
+				width: 25px;
+				height: 25px;
+			}
+		}
+	}
+
+	// Правая часть
+	&__content {
+		position: relative;
+		width: 100%;
+		padding: 17px 0 17px 24px;
+		overflow-y: auto;
+		overflow-x: hidden;
+
+        max-height: calc(100vh - var(--header-height) + 50px);
+
+		@include lg {
+			position: initial;
+		}
+
+		&::-webkit-scrollbar {
+			inline-size: 0;
+			background-color: var(--scrollbar);
+		}
+	}
+
+	// Подкатегории
+	&__subcats {
+		position: relative;
+		height: 100%;
+		display: none;
+
+		&.active {
+			display: block;
+			animation: fade-up 0.3s ease-in-out;
+		}
+
+		@include lg {
+			position: absolute;
+			top: 0;
+			left: 110vw;
+
+			display: block;
+
+			width: 100%;
+			height: 100%;
+			max-height: calc(100vh - 120px);
+			overflow-y: auto;
+
+			padding-block: 20px;
+
+			background-color: var(--catalog-bg);
+
+			transition: all 0.3s ease-in-out;
+
+			&::-webkit-scrollbar {
+				inline-size: 0;
+			}
+
+			&.active-lg {
+				left: 0;
+			}
+		}
+
+		// Верхняк подкатегории
+		&-header {
+			display: inline-flex;
+			align-items: start;
+			gap: 10px;
+			margin-bottom: 27px;
+
+			@include lg {
+				margin-bottom: 20px;
+			}
+
+			@include sm {
+				margin-bottom: 20px;
+			}
+		}
+
+		// Кнопка вернуться назад
+		&-back {
+			display: none;
+			background-color: transparent;
+			cursor: pointer;
+
+			align-items: center;
+			justify-content: center;
+
+			height: 34px;
+			aspect-ratio: 1/1;
+			transition: all 0.3s ease-in-out;
+
+			flex-shrink: 0;
+
+			&:hover {
+				transform: scale(1.2) translateX(5%);
+			}
+			@include lg {
+				display: flex;
+			}
+
+			@include sm {
+				height: 26px;
+			}
+
+			svg {
+				width: 75%;
+				aspect-ratio: 1/1;
+				stroke: #fff;
+				fill: #fff;
+			}
+		}
+
+		// Заголовок в подкатегориях
+		&-title {
+			font-weight: 600;
+			font-size: 22px;
+			color: var(--white);
+
+			a {
+				text-decoration: none;
+				color: var(--white);
+				&:hover {
+					text-decoration: underline;
+				}
+			}
+
+			@include sm {
+				font-size: 18px;
+			}
+		}
+
+		// список подкатегорий
+		&-list {
+			column-count: 3;
+			column-gap: 35px;
+
+			@include lg {
+				column-count: 1;
+
+				display: flex;
+				flex-direction: column;
+				gap: 10px;
+
+				padding-block-end: 10px;
+			}
+
+			li {
+				page-break-inside: avoid;
+				break-inside: avoid;
+				padding-bottom: 17px;
+
+				@include lg {
+					padding-bottom: 0;
+				}
+			}
+			a {
+				text-decoration: none;
+			}
+		}
+
+		// ссылка в подкатегории
+		&-link {
+			display: block;
+			width: 100%;
+			text-overflow: ellipsis;
+			font-size: 16px;
+			font-weight: 500;
+
+			color: var(--white);
+			line-height: 160%;
+
+			@include sm {
+				font-size: 14px;
+				font-weight: normal;
+
+				line-height: 140%;
+				margin-bottom: 10px;
+			}
+
+			transition: all 0.2s ease-in-out;
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+	}
+}

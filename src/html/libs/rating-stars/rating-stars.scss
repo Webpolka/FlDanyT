@@ -1,0 +1,36 @@
+
+/* -------------------------------------------------------------------------------------------------------------------------------------------------
+Rating Stars - Пользовательский опыт 
+-----------------------------------------------------------------------------------------------------------------------------------------------------*/
+.rating-stars {
+    display: inline-flex;
+    align-items: center;
+    gap: rem(5);
+
+	margin-inline: auto;
+	margin-bottom: rem(20);	
+
+	@include sm {
+        gap: rem(3);
+
+		margin-bottom: rem(10);		
+	}
+    
+	&__item {
+		opacity: 0.5;
+		transition: opacity 0.3s ease-in-out;
+		cursor: pointer;
+        
+		&.filled {
+			opacity: 1;
+		}
+		svg {
+			width: rem(36);
+			height: rem(36);
+			@include sm {
+				width: rem(23);
+				height: rem(23);
+			}
+		}
+	}
+}

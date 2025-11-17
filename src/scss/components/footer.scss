@@ -1,0 +1,48 @@
+/* ------------------------------------------------------------------------------------------------------------------------------
+FOOTER
+--------------------------------------------------------------------------------------------------------------------------------*/
+.footer {
+	background-color: var(--accent);
+	height: 70px;
+
+	padding-block-start: 20px;
+	padding-block-end: 10px;
+
+	font-size: 13px;
+	color: var(--white-85);
+
+	@include sm {
+		height: 55px;
+		font-size: 8.5px;
+	}
+
+	.justify-content-between {
+		align-items: end;
+
+		@include sm {
+			padding-right: 15px;
+			padding-left: 15px;
+		}
+	}
+
+	ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		text-align: right;
+
+		li:first-child {
+			margin-bottom: 2px;
+			@include sm {
+				margin-bottom: 4px;
+			}
+		}
+	}
+
+	a {
+		color: var(--white-85);
+		&:hover {
+			text-decoration: none;
+		}
+	}
+}

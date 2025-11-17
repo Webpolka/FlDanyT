@@ -1,0 +1,33 @@
+<div class="custom">
+	@@include('./modal.html')
+	<!-- Telegram button -->
+	<a href="#" class="telegram">
+		<svg class="icon icon--tg">
+			<use href="./icons/symbol/sprite.svg#tg"></use>
+		</svg>
+
+		<span>Новинки, розыгрышы, новости в нашем официальном телеграм аккаунте</span>
+	</a>
+
+	<!-- banners-webp -->
+	<div class="custom-group wiggle-slow">
+		<div class="custom-group__banner">
+			<img src="../../images/banners-webp/banner-left.webp" alt="Banner 1" />
+		</div>
+
+		<a href="#" class="custom-group__banner">
+			<div class="transform-scalewrap">
+				<img src="../../images/banners-webp/banner-center.webp" alt="Banner 2" />
+			</div>
+		</a>
+
+		<div class="custom-group__banner">
+			<img src="../../images/banners-webp/banner-right.webp" alt="Banner 3" />
+		</div>
+	</div>
+
+	<!-- Tile -->
+	<div class="tile">
+		@@include('../sliders/slider-record.html') @@include('../sliders/slider-dolphin.html') @@include('../sliders/slider-mask.html')
+	</div>
+</div>

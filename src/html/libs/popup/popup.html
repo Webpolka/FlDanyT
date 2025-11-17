@@ -1,0 +1,42 @@
+<button data-popup-open="popup-request">Открыть</button>
+
+<!-- Модальное окно -->
+<div class="popup" data-popup="popup-request">
+	<div class="popup__content">
+		<button class="popup__close" data-popup-close></button>
+		<form id="request-form" class="request-form">
+			<h3 class="request-form__title">Заполните форму</h3>
+			<p class="request-form__description">Оставьте заявку на обратную связь, чтобы узнать подробнее о поставщике и его продукции</p>
+
+			<div class="row gx-14 gy-10 gy-sm-7">
+				<div class="col-sm-6">
+					<input class="input" type="text" name="request-form-name" placeholder="Ваше имя" autocomplete="on" />
+				</div>
+				<div class="col-sm-6">
+					<input class="input" type="tel" name="request-form-name" placeholder="Номер телефона" autocomplete="on" />
+				</div>
+				<div class="col-12">
+					<input class="input" type="email" name="request-form-name" placeholder="E-mail" autocomplete="on" />
+				</div>
+				<div class="col-12">
+					<textarea
+						class="input"					
+						name="request-form-name"
+						placeholder="Напишите Ваше обращение"
+						autocomplete="on"
+					></textarea>
+				</div>
+			</div>
+
+			<div class="request-form__group">
+				<input class="request-form__checkbox" type="checkbox" name="request-form-policy" id="request-form-policy" />
+				<label for="request-form-policy">Я согласен с пользовательским соглашением и политикой конфиденциальности</label>
+			</div>
+
+		
+			<div class="justify-content-center">
+				<button type="submit" class="btn-accent">Отправить</button>
+			</div>
+		</form>
+	</div>
+</div>

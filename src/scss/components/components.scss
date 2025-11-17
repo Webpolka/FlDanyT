@@ -1,0 +1,179 @@
+/* ------------------------------------------------------------------------------------------------------------------------------
+COMPONENTS
+--------------------------------------------------------------------------------------------------------------------------------*/
+
+// Main content
+.main {
+	background-color: var(--gray);
+	padding-block-start: 15px;
+
+	@include sm {
+		padding-block-start: 7px;
+	}
+}
+
+// Telegramm button
+.telegram {
+	height: 40px;
+	border-radius: 12px;
+	border: var(--accent) 2px solid;
+	background-color: var(--white);
+
+	padding-inline: 10px;
+	padding-block: 10px;
+
+	display: flex;
+	align-items: center;
+	gap: 10px;
+
+	font-size: 12px;
+	color: var(--text);
+	font-weight: bold;
+	text-decoration: none;
+
+	@include sm {
+		gap: 12px;
+		font-size: 9px;
+		margin-inline: 15px;
+		line-height: 125%;
+	}
+
+	svg {
+		flex-shrink: 0;
+		width: 20px;
+		aspect-ratio: 1/1;
+		fill: var(--accent);
+	}
+
+	transition: all 0.3s ease-in-out;
+	&:hover {
+		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+	}
+}
+
+.custom {
+	position: relative;
+	display: flex;
+	gap: 30px;
+	flex-direction: column;
+
+	@include lg {
+		gap: 15px;
+	}
+
+	@include sm {
+		gap: 12px;
+	}
+}
+
+.custom-group {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	width: 100%;
+
+	@include sm {
+		width: 275%;
+		gap: 0;
+		transform: translateX(-31.85%);
+	}
+	// Banners
+	&__banner {
+		display: block;
+		border-radius: 12px;
+		overflow: hidden;
+
+		&:nth-child(1) {
+			width: 31.5%;
+		}
+		&:nth-child(2) {
+			width: 37%;
+		}
+		&:nth-child(3) {
+			width: 31.5%;
+		}
+
+		@include sm {
+			&:nth-child(1) {
+				width: 33.33%;
+			}
+			&:nth-child(2) {
+				width: 33.33%;
+			}
+			&:nth-child(3) {
+				width: 33.33%;
+			}
+		}
+
+		img {
+			display: block;
+			width: 100%;
+			height: auto;
+			object-fit: cover;
+			overflow: hidden;
+		}
+	}
+
+	a.custom-group__banner {
+		transition: all 0.3s ease-in-out;
+		&:hover {
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+			
+		}
+	}
+}
+
+// Tile
+.tile {
+	border-radius: 20px 20px 0 0;
+	background-color: var(--white);
+	padding: 10px 45px 45px 45px;
+
+	h2 {
+		font-size: 24px;
+		font-weight: bold;
+		color: var(--text);
+
+		padding-block-start: 10px;
+		padding-block-end: 20px;
+
+		@include sm {
+			padding-block-start: 10px;
+			padding-block-end: 10px;
+		}
+	}
+
+	@include lg {
+		h2 {
+			font-size: 22px;
+		}
+		padding: 10px 25px 45px 25px;
+	}
+
+	@include sm {
+		h2 {
+			font-size: 15px;
+		}
+		padding-inline: 15px;
+	}
+}
+.transform-scalewrap{
+	transition: all 0.3s ease-in-out;
+	&:hover{
+		transform: scale(1.05);
+	}
+}
+
+.wiggle-slow {
+	@include sm {
+		animation: wiggle 1.5s ease-in-out infinite alternate;
+	}
+}
+@keyframes wiggle {
+	0% {
+		transform: translateX(-31.35%);
+	}	
+	100% {
+		transform: translateX(-32.35%);
+	}
+}

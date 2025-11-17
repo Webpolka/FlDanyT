@@ -1,0 +1,119 @@
+
+/* ------------------------------------------------------------------------------------------------------------------------------
+ACCORDION
+--------------------------------------------------------------------------------------------------------------------------------*/
+.accordion {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+
+	background-color: rgb(0, 0, 0, 0.15);
+    padding: 20px;
+
+	@include sm {
+		gap: 10px;
+	}
+
+	color: var(--text);
+
+	// .accordion__item
+	&__item {
+		padding: 11px 20px;
+		background-color: var(--white);
+
+		@include sm {
+			padding: 10px 13px;
+		}
+
+		&.open {
+			.accordion__header {
+				&::after {
+					transform: rotate(0deg);
+				}
+			}
+
+			.accordion__toggle {
+				background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTkiIHZpZXdCb3g9IjAgMCAxOCAxOSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNNC41IDkuNUgxMy41IiBzdHJva2U9IndoaXRlIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIC8+PC9zdmc+CgoK");
+			}
+
+			.accordion__content {
+				block-size: max-content;
+				visibility: visible;
+				opacity: 1;
+
+				/** Установить свои значения */
+				padding-block-start: 23px;
+				padding-block-end: 10px;
+
+				line-height: 140%;
+
+				@include sm {
+					padding-block-start: 10px;
+				}
+			}
+		}
+	}
+
+	// .accordion__header
+	&__header {
+		cursor: pointer;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+		font-weight: 400;
+		font-size: 20px;
+		transition: background 0.3s ease-in-out;
+		@include sm {
+			font-size: 12px;
+		}
+	}
+
+	&__toggle {
+		width: 44px;
+		aspect-ratio: 1/1;
+
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+
+		background-color: var(--accent);
+
+		font-weight: 500;
+		font-size: 15px;
+		line-height: 122%;
+		color: var(--white);
+
+		transition: var(--transition);
+
+		background-image: url("data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjE4IiBoZWlnaHQ9IjE5IiB2aWV3Qm94PSIwIDAgMTggMTkiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTQuNSA5LjVIMTMuNSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiAvPjxwYXRoIGQ9Ik05IDE0VjUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgLz48L3N2Zz4KCgoKCg==");
+		background-repeat: no-repeat;
+		background-size: 50%;
+		background-position: center center;
+
+		@include sm {
+			width: 24px;
+		}
+
+		&:hover {
+			filter: var(--filter);
+		}
+	}
+
+	// .accordion__content
+	&__content {
+		block-size: 0;
+		visibility: hidden;
+		opacity: 0;
+
+		overflow: hidden;
+		transition: 0.3s ease-in-out;
+
+		@include sm {
+			font-weight: 400;
+			font-size: 10px;
+			color: var(--text);
+			opacity: 0.75;
+		}
+	}
+}

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml">
+	@@include('html/components/head.html', { 'title': 'Главная' })
+
+	<body>
+		<div class="wrapper">
+			@@include('html/sections/header.html')
+			<main class="main">
+				<div class="container">
+					@@include('html/sections/content.html')
+				</div>
+			</main>
+			@@include('html/sections/footer.html')
+		</div>
+	
+		<div id="slider-buffer" style="position:absolute; top:-9999px; left:-9999px; width:1px; height:1px; overflow:hidden;"></div>
+		@@include('html/components/script.html')
+	</body>
+</html>

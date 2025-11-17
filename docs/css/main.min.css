@@ -1,0 +1,688 @@
+@charset "UTF-8";
+@font-face {
+  font-family: Montserrat;
+  font-display: swap;
+  src: url("../fonts/Montserrat-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+/* ------------------------------------------------------------------------------------------------------------------------------
+ROOT
+--------------------------------------------------------------------------------------------------------------------------------*/
+:root {
+  --container-width: 78.125rem;
+  --container-padding-desktop: 0.9375rem;
+  --container-padding-large: 0.9375rem;
+  --container-padding-small: 0;
+  --font-main: "Montserrat", sans-serif;
+  --font-title: "Montserrat", sans-serif;
+  --white: white;
+  --white-85: rgb(255, 255, 255, 0.85);
+  --black: black;
+  --accent: #0096D3;
+  --gray: #F8F6F8;
+  --text: rgb(47, 47, 47);
+  --scrollbar: gray;
+  --scrollbar-track: gray;
+  --scrollbar-thumb: var(--accent);
+}
+
+/* ------------------------------------------------------------------------------------------------------------------------------
+CUSTOM BOOTSTRAP GAP
+--------------------------------------------------------------------------------------------------------------------------------*/
+.gap-30 {
+  gap: 1.875rem !important;
+}
+
+.g-custom, .gx-custom {
+  --bs-gutter-x: 3rem;
+}
+
+.g-custom, .gy-custom {
+  --bs-gutter-y: 3rem;
+}
+
+/* ------------------------------------------------------------------------------------------------------------------------------
+TYPOGRAPHY
+--------------------------------------------------------------------------------------------------------------------------------*/
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-title);
+}
+
+/* ------------------------------------------------------------------------------------------------------------------------------
+BASE
+--------------------------------------------------------------------------------------------------------------------------------*/
+* {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+*:focus, *:active {
+  outline: none;
+}
+
+nav,
+footer,
+header,
+aside {
+  display: block;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+body {
+  overscroll-behavior: none;
+  text-rendering: optimizelegibility;
+  -webkit-text-size-adjust: 100%;
+     -moz-text-size-adjust: 100%;
+          text-size-adjust: 100%;
+  font-family: var(--font-main);
+  font-size: 1rem;
+  font-weight: 400;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-wrap: balance;
+}
+
+svg {
+  max-width: 3.125rem;
+  max-height: 3.125rem;
+}
+
+*::-webkit-scrollbar {
+  inline-size: 0.5rem;
+  background-color: var(--scrollbar);
+}
+*::-webkit-scrollbar-track {
+  border-radius: 0.625rem;
+  box-shadow: inset 0 0 0.375rem rgba(0, 0, 0, 0.2);
+  background: var(--scrollbar-track);
+}
+*::-webkit-scrollbar-thumb {
+  border-radius: 0.625rem;
+  border: 0 none #fff;
+  background-color: var(--scrollbar-thumb);
+  cursor: pointer;
+}
+
+.container {
+  margin-inline: auto;
+  min-inline-size: 20rem;
+  max-inline-size: var(--container-width);
+  padding-inline: var(--container-padding-desktop);
+}
+
+.img-responsive {
+  display: block;
+  width: 100%;
+  height: auto;
+  -o-object-fit: cover;
+     object-fit: cover;
+  overflow: hidden;
+}
+
+.image-bg {
+  position: relative;
+}
+.image-bg img {
+  display: block;
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  -o-object-fit: cover;
+     object-fit: cover;
+  block-size: 100%;
+  inline-size: 100%;
+}
+
+.wrapper {
+  display: flex;
+  min-block-size: 100%;
+  /** Поменять на clip - если используется в проекте position: sticky */
+  overflow: clip;
+  flex-direction: column;
+}
+
+.main {
+  position: relative;
+  flex: 1 1 auto;
+}
+
+/* ------------------------------------------------------------------------------------------------------------------------------
+COMPONENTS
+--------------------------------------------------------------------------------------------------------------------------------*/
+.main {
+  background-color: var(--gray);
+  padding-block-start: 0.9375rem;
+}
+
+.telegram {
+  height: 2.5rem;
+  border-radius: 0.75rem;
+  border: var(--accent) 0.125rem solid;
+  background-color: var(--white);
+  padding-inline: 0.625rem;
+  padding-block: 0.625rem;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-size: 0.75rem;
+  color: var(--text);
+  font-weight: bold;
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+}
+.telegram svg {
+  flex-shrink: 0;
+  width: 1.25rem;
+  aspect-ratio: 1/1;
+  fill: var(--accent);
+}
+.telegram:hover {
+  box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.12);
+}
+
+.custom {
+  position: relative;
+  display: flex;
+  gap: 1.875rem;
+  flex-direction: column;
+}
+
+.custom-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+.custom-group__banner {
+  display: block;
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+.custom-group__banner:nth-child(1) {
+  width: 31.5%;
+}
+.custom-group__banner:nth-child(2) {
+  width: 37%;
+}
+.custom-group__banner:nth-child(3) {
+  width: 31.5%;
+}
+.custom-group__banner img {
+  display: block;
+  width: 100%;
+  height: auto;
+  -o-object-fit: cover;
+     object-fit: cover;
+  overflow: hidden;
+}
+.custom-group a.custom-group__banner {
+  transition: all 0.3s ease-in-out;
+}
+.custom-group a.custom-group__banner:hover {
+  box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.12);
+}
+
+.tile {
+  border-radius: 1.25rem 1.25rem 0 0;
+  background-color: var(--white);
+  padding: 0.625rem 2.8125rem 2.8125rem 2.8125rem;
+}
+.tile h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--text);
+  padding-block-start: 0.625rem;
+  padding-block-end: 1.25rem;
+}
+
+.transform-scalewrap {
+  transition: all 0.3s ease-in-out;
+}
+.transform-scalewrap:hover {
+  transform: scale(1.05);
+}
+
+@keyframes wiggle {
+  0% {
+    transform: translateX(-31.35%);
+  }
+  100% {
+    transform: translateX(-32.35%);
+  }
+}
+/* ------------------------------------------------------------------------------------------------------------------------------
+FOOTER
+--------------------------------------------------------------------------------------------------------------------------------*/
+.footer {
+  background-color: var(--accent);
+  height: 4.375rem;
+  padding-block-start: 1.25rem;
+  padding-block-end: 0.625rem;
+  font-size: 0.8125rem;
+  color: var(--white-85);
+}
+.footer .justify-content-between {
+  align-items: end;
+}
+.footer ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: right;
+}
+.footer ul li:first-child {
+  margin-bottom: 0.125rem;
+}
+.footer a {
+  color: var(--white-85);
+}
+.footer a:hover {
+  text-decoration: none;
+}
+
+/* ------------------------------------------------------------------------------------------------------------------------------
+HEADER
+--------------------------------------------------------------------------------------------------------------------------------*/
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 12000;
+  background-color: var(--accent);
+}
+.header .logo {
+  width: 6.25rem;
+}
+.header .logo svg {
+  min-width: 100%;
+  width: 100%;
+  aspect-ratio: 332/88;
+  fill: white;
+}
+.header .justify-content-end {
+  display: flex;
+  align-items: center;
+  min-height: 3.125rem;
+}
+
+/* ------------------------------------------------------------------------------------------------------------------------------
+POPUP Swiper
+------------------------------------------------------------------------------------------------------------------ */
+.popup {
+  position: absolute;
+  top: 3.125rem;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 9000;
+  transition: all 1s ease-in-out;
+}
+
+.popup.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.popup__window {
+  position: absolute;
+  z-index: 9999;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  max-width: 90rem;
+  min-height: calc(100vh - 4.375rem);
+  padding: 5rem 2.8125rem 1.875rem 2.8125rem;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  border-bottom: 0.0625rem solid rgba(0, 150, 211, 0.25);
+  box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.2);
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+.popup__close {
+  position: absolute;
+  right: 1.25rem;
+  top: 1.25rem;
+  background-color: #f6f6f5;
+  border-radius: 0.3125rem;
+  width: 1.5625rem;
+  height: 1.5625rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  border: 0.0625rem solid rgba(0, 150, 211, 0.05);
+}
+
+.popup__close:hover svg {
+  fill: var(--accent);
+}
+
+.popup__close svg {
+  fill: #bbbbba;
+  width: 100%;
+  height: 100%;
+  transition: fill 0.3s ease-in-out;
+}
+
+.popup__title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--text);
+  padding-top: 3.75rem;
+}
+
+/* ---------------------- Swiper ---------------------- */
+:root {
+  --swiper-navigation-sides-offset: -1.5625rem;
+}
+
+.sliderModal,
+.slider {
+  position: relative;
+}
+.sliderModal .product-slide,
+.sliderModal .product-variant,
+.slider .product-slide,
+.slider .product-variant {
+  display: block;
+  border-radius: 0.75rem;
+  border: 0.0625rem solid transparent;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
+.sliderModal .product-slide:hover,
+.sliderModal .product-variant:hover,
+.slider .product-slide:hover,
+.slider .product-variant:hover {
+  border: 0.0625rem solid rgba(0, 150, 211, 0.25);
+}
+.sliderModal .product-slide img,
+.sliderModal .product-variant img,
+.slider .product-slide img,
+.slider .product-variant img {
+  display: block;
+  width: 100%;
+  height: auto;
+  -o-object-fit: cover;
+     object-fit: cover;
+  overflow: hidden;
+}
+.sliderModal.hovered .swiper-button-prev,
+.slider.hovered .swiper-button-prev {
+  transform: translateX(0);
+}
+.sliderModal.hovered .swiper-button-next,
+.slider.hovered .swiper-button-next {
+  transform: translateX(0);
+}
+
+.swiper.product-variant {
+  display: block;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 0.0625rem solid transparent;
+  transition: all 0.3s ease-in-out;
+}
+
+.swiper.product-variant:hover {
+  border: 0.0625rem solid rgba(0, 150, 211, 0.25);
+}
+
+.swiper.product-variant img {
+  display: block;
+  width: 100%;
+  height: auto;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+/* Стрелки Swiper */
+.swiper-button-prev,
+.swiper-button-next {
+  width: 3.125rem;
+  height: 3.125rem;
+  background-color: var(--white);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.65s ease-in-out;
+}
+
+.swiper-button-prev {
+  left: 0;
+  transform: translateX(-30vw);
+}
+
+.swiper-button-next {
+  right: 0;
+  transform: translateX(30vw);
+}
+
+.swiper-button-prev svg,
+.swiper-button-next svg {
+  width: 100%;
+  aspect-ratio: 1/1;
+  fill: #bbbbba;
+  transition: fill 0.3s ease-in-out;
+}
+
+.swiper-button-prev:hover svg,
+.swiper-button-next:hover svg {
+  fill: var(--accent);
+}
+
+/* Пагинация */
+.swiper-pagination {
+  position: relative !important;
+  width: 100%;
+  text-align: center;
+  padding-top: 0.3125rem;
+  display: none;
+}
+
+.swiper-pagination-bullet {
+  width: 0.3125rem;
+  height: 0.3125rem;
+  background: #bbbbba;
+  opacity: 0.5;
+  margin: 0 0.25rem;
+  display: inline-block;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.swiper-pagination-bullet-active {
+  background: var(--accent);
+  opacity: 1;
+}
+
+/* ------------------------------------------------------------------------------------------------------------------------------
+KEYFRAMES
+--------------------------------------------------------------------------------------------------------------------------------*/
+@keyframes show-header {
+  0% {
+    inset-block-start: -100%;
+  }
+  100% {
+    inset-block-start: 0;
+  }
+}
+@keyframes fade-up-big {
+  0% {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fade-up {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(359deg);
+  }
+}
+/* ------------------------------------------------------------------------------------------------------------------------------
+MEDIAQUERIES 
+--------------------------------------------------------------------------------------------------------------------------------*/
+@media (max-width: 1200px){
+  .popup {
+    top: -0.9375rem;
+  }
+  .popup__window {
+    padding: 3.75rem 2.8125rem 1.5625rem 2.8125rem;
+  }
+  .popup__title {
+    padding-top: 2.5rem;
+  }
+}
+@media (max-width: 992px){
+  .container {
+    padding-inline: var(--container-padding-large);
+  }
+  .custom {
+    gap: 0.9375rem;
+  }
+  .tile {
+    padding: 0.625rem 1.5625rem 2.8125rem 1.5625rem;
+  }
+  .tile h2 {
+    font-size: 1.375rem;
+  }
+  .popup__window {
+    padding: 1.875rem;
+  }
+  .popup__title {
+    font-size: 1.375rem;
+  }
+  :root {
+    --swiper-navigation-sides-offset: -1.25rem;
+  }
+  .swiper-button-prev,
+  .swiper-button-next {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}
+@media (max-width: 576px){
+  .container {
+    padding-inline: var(--container-padding-small);
+  }
+  .main {
+    padding-block-start: 0.4375rem;
+  }
+  .telegram {
+    gap: 0.75rem;
+    font-size: 0.5625rem;
+    margin-inline: 0.9375rem;
+    line-height: 125%;
+  }
+  .custom {
+    gap: 0.75rem;
+  }
+  .custom-group {
+    width: 275%;
+    gap: 0;
+    transform: translateX(-31.85%);
+  }
+  .custom-group__banner:nth-child(1) {
+    width: 33.33%;
+  }
+  .custom-group__banner:nth-child(2) {
+    width: 33.33%;
+  }
+  .custom-group__banner:nth-child(3) {
+    width: 33.33%;
+  }
+  .tile h2 {
+    padding-block-start: 0.625rem;
+    padding-block-end: 0.625rem;
+  }
+  .tile {
+    padding-inline: 0.9375rem;
+  }
+  .tile h2 {
+    font-size: 0.9375rem;
+  }
+  .wiggle-slow {
+    animation: wiggle 1.5s ease-in-out infinite alternate;
+  }
+  .footer {
+    height: 3.4375rem;
+    font-size: 0.53125rem;
+  }
+  .footer .justify-content-between {
+    padding-right: 0.9375rem;
+    padding-left: 0.9375rem;
+  }
+  .footer ul li:first-child {
+    margin-bottom: 0.25rem;
+  }
+  .header .justify-content-end {
+    padding-right: 0.9375rem;
+    padding-left: 0.9375rem;
+  }
+  .popup__window {
+    padding: 0.9375rem;
+  }
+  .popup__title {
+    font-size: 0.9375rem;
+    padding-top: 0.3125rem;
+  }
+  .swiper-button-prev,
+  .swiper-button-next {
+    display: none;
+  }
+  .swiper-pagination {
+    display: block;
+  }
+}
+@media (any-hover: hover){
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: grey;
+  }
+}
+/*# sourceMappingURL=main.min.css.map */

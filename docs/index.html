@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Главная</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="vendor/css/bootstrap.css">
+
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css">
+    <link rel="stylesheet" href="./css/main.min.css">
+</head>
+
+
+<body>
+    <div class="wrapper">
+        <header class="header">
+            <div class="container justify-content-end">
+                <!-- Лого -->
+                <div class="logo">
+                    <svg class="icon icon--oced">
+                        <use href="./icons/symbol/sprite.svg#oced"></use>
+                    </svg>
+                </div>
+            </div>
+        </header>
+
+        <main class="main">
+            <div class="container">
+                <div class="custom">
+                    <div class="popup" id="popup">
+
+                        <div class="popup__window">
+                            <div class="popup__close">
+                                <svg class="icon icon--close">
+                                    <use href="./icons/symbol/sprite.svg#close"></use>
+                                </svg>
+                            </div>
+
+                            <div class="popup__content">
+                                <div class="sliderModal">
+                                    <!-- Swiper Slider -->
+                                    <div class="swiper" id="popupSlider">
+                                        <div class="swiper-wrapper">
+                                            <!-- Слайды будут динамически добавляться через JS -->
+                                        </div>
+                                    </div>
+
+                                    <!-- Стрелки -->
+                                    <div class="swiper-button-prev">
+                                        <svg class="icon icon--left">
+                                            <use href="./icons/symbol/sprite.svg#left"></use>
+                                        </svg>
+                                    </div>
+                                    <div class="swiper-button-next">
+                                        <svg class="icon icon--right">
+                                            <use href="./icons/symbol/sprite.svg#right"></use>
+                                        </svg>
+                                    </div>
+                                    <!-- Пагинация -->
+                                    <div class="swiper-pagination"></div>
+                                </div>
+
+                                <div class="popup__title" id="popupTitle"></div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <!-- Telegram button -->
+                    <a href="#" class="telegram">
+                        <svg class="icon icon--tg">
+                            <use href="./icons/symbol/sprite.svg#tg"></use>
+                        </svg>
+
+                        <span>Новинки, розыгрышы, новости в нашем официальном телеграм аккаунте</span>
+                    </a>
+
+                    <!-- banners-webp -->
+                    <div class="custom-group wiggle-slow">
+                        <div class="custom-group__banner">
+                            <img src="./images/banners-webp/banner-left.webp" alt="Banner 1">
+                        </div>
+
+                        <a href="#" class="custom-group__banner">
+                            <div class="transform-scalewrap">
+                                <img src="./images/banners-webp/banner-center.webp" alt="Banner 2">
+                            </div>
+                        </a>
+
+                        <div class="custom-group__banner">
+                            <img src="./images/banners-webp/banner-right.webp" alt="Banner 3">
+                        </div>
+                    </div>
+
+                    <!-- Tile -->
+                    <div class="tile">
+                        <h2>Очки взрослые серии Record</h2>
+                        <div class="slider">
+                            <div class="swiper">
+                                <div class="swiper-wrapper">
+                                    <!-- 1 -->
+                                    <div class="swiper-slide">
+                                        <div class="product-slide" data-images='[
+                        "../../images/collections-webp/record/black/black-1.webp",
+                        "../../images/collections-webp/record/black/black-3.webp",
+                        "../../images/collections-webp/record/black/black-6.webp",
+                        "../../images/collections-webp/record/black/black-7.webp",
+                        "../../images/collections-webp/record/black/black-8.webp",
+                        "../../images/collections-webp/record/black/black-9.webp",
+                        "../../images/collections-webp/record/black/black-10.webp"
+                    ]' data-title="Очки взрослые серии Record">
+                                            <img src="./images/collections-webp/record/black/black-1.webp" alt="Black Record">
+                                        </div>
+                                    </div>
+
+                                    <!-- 2 -->
+                                    <div class="swiper-slide">
+                                        <div class="product-slide" data-images='[
+                        "../../images/collections-webp/record/blue/blue-1.webp",
+                        "../../images/collections-webp/record/blue/blue-2.webp",
+                        "../../images/collections-webp/record/blue/blue-3.webp",
+                        "../../images/collections-webp/record/blue/blue-4.webp",
+                        "../../images/collections-webp/record/blue/blue-5.webp",
+                        "../../images/collections-webp/record/blue/blue-6.webp",
+                        "../../images/collections-webp/record/blue/blue-9.webp"
+                    ]' data-title="Очки взрослые серии Record">
+                                            <img src="./images/collections-webp/record/blue/blue-1.webp" alt="Blue Record">
+                                        </div>
+                                    </div>
+
+                                    <!-- 3 -->
+                                    <div class="swiper-slide">
+                                        <div class="product-slide" data-images='[
+                        "../../images/collections-webp/record/grey/grey-1.webp",
+                        "../../images/collections-webp/record/grey/grey-2.webp",
+                        "../../images/collections-webp/record/grey/grey-3.webp",
+                        "../../images/collections-webp/record/grey/grey-4.webp",
+                        "../../images/collections-webp/record/grey/grey-5.webp",
+                        "../../images/collections-webp/record/grey/grey-7.webp",
+                        "../../images/collections-webp/record/grey/grey-9.webp"
+                    ]' data-title="Очки взрослые серии Record">
+                                            <img src="./images/collections-webp/record/grey/grey-1.webp" alt="Grey Record">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Стрелки -->
+                            <div class="swiper-button-prev">
+                                <svg class="icon icon--left">
+                                    <use href="./icons/symbol/sprite.svg#left"></use>
+                                </svg>
+                            </div>
+                            <div class="swiper-button-next">
+                                <svg class="icon icon--right">
+                                    <use href="./icons/symbol/sprite.svg#right"></use>
+                                </svg>
+                            </div>
+
+                            <!-- Пагинация (только для мобилок) -->
+                            <div class="swiper-pagination"></div>
+                        </div>
+                        <h2>Очки детские серии Dolphin</h2>
+                        <div class="slider">
+                            <div class="swiper">
+                                <div class="swiper-wrapper">
+                                    <!-- 1 -->
+                                    <div class="swiper-slide">
+                                        <div class="product-slide" data-images='[
+                        "../../images/collections-webp/dolphin/multi/child-color-1.webp",
+                        "../../images/collections-webp/dolphin/multi/child-color-2.webp",
+                        "../../images/collections-webp/dolphin/multi/child-color-4.webp",
+                        "../../images/collections-webp/dolphin/multi/child-color-7.webp",
+                        "../../images/collections-webp/dolphin/multi/child-color-8.webp",
+                        "../../images/collections-webp/dolphin/multi/child-color-9.webp"
+                    ]' data-title="Очки детские серии Dolphin">
+                                            <img src="./images/collections-webp/dolphin/multi/child-color-1.webp" alt="Multi Dolphin">
+                                        </div>
+                                    </div>
+
+                                    <!-- 2 -->
+                                    <div class="swiper-slide">
+                                        <div class="product-slide" data-images='[
+                        "../../images/collections-webp/dolphin/black/child-black-1.webp",
+                        "../../images/collections-webp/dolphin/black/child-black-2.webp",
+                        "../../images/collections-webp/dolphin/black/child-black-4.webp",
+                        "../../images/collections-webp/dolphin/black/child-black-6.webp",
+                        "../../images/collections-webp/dolphin/black/child-black-7.webp",
+                        "../../images/collections-webp/dolphin/black/child-black-8.webp"
+                    ]' data-title="Очки детские серии Dolphin">
+                                            <img src="./images/collections-webp/dolphin/black/child-black-1.webp" alt="Black Dolphin">
+                                        </div>
+                                    </div>
+
+                                    <!-- 3 -->
+                                    <div class="swiper-slide">
+                                        <div class="product-slide" data-images='[
+                        "../../images/collections-webp/dolphin/pink/child-pink-1.webp",
+                        "../../images/collections-webp/dolphin/pink/child-pink-2.webp",
+                        "../../images/collections-webp/dolphin/pink/child-pink-4.webp",
+                        "../../images/collections-webp/dolphin/pink/child-pink-5.webp",
+                        "../../images/collections-webp/dolphin/pink/child-pink-6.webp",
+                        "../../images/collections-webp/dolphin/pink/child-pink-7.webp"
+                    ]' data-title="Очки детские серии Dolphin">
+                                            <img src="./images/collections-webp/dolphin/pink/child-pink-1.webp" alt="Pink Dolphin">
+                                        </div>
+                                    </div>
+
+                                    <!-- 4 -->
+                                    <div class="swiper-slide">
+                                        <div class="product-slide" data-images='[
+                        "../../images/collections-webp/dolphin/blue/child-blue-1.webp",
+                        "../../images/collections-webp/dolphin/blue/child-blue-2.webp",
+                        "../../images/collections-webp/dolphin/blue/child-blue-4.webp",
+                        "../../images/collections-webp/dolphin/blue/child-blue-6.webp",
+                        "../../images/collections-webp/dolphin/blue/child-blue-7.webp",
+                        "../../images/collections-webp/dolphin/blue/child-blue-8.webp"
+                    ]' data-title="Очки детские серии Dolphin">
+                                            <img src="./images/collections-webp/dolphin/blue/child-blue-1.webp" alt="Blue Dolphin">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Стрелки -->
+                            <div class="swiper-button-prev">
+                                <svg class="icon icon--left">
+                                    <use href="./icons/symbol/sprite.svg#left"></use>
+                                </svg>
+                            </div>
+                            <div class="swiper-button-next">
+                                <svg class="icon icon--right">
+                                    <use href="./icons/symbol/sprite.svg#right"></use>
+                                </svg>
+                            </div>
+
+                            <!-- Пагинация (для мобилок) -->
+                            <div class="swiper-pagination"></div>
+                        </div>
+                        <h2>Очки детские серии Mask</h2>
+                        <div class="slider">
+                            <div class="swiper">
+                                <div class="swiper-wrapper">
+                                    <!-- 1 -->
+                                    <div class="swiper-slide">
+                                        <div class="product-slide" data-images='[
+                        "../../images/collections-webp/mask/turquoise/child-turquoise-1.webp",
+                        "../../images/collections-webp/mask/turquoise/child-turquoise-2.webp",
+                        "../../images/collections-webp/mask/turquoise/child-turquoise-3.webp",
+                        "../../images/collections-webp/mask/turquoise/child-turquoise-4.webp"
+                    ]' data-title="Очки детские серии Mask">
+                                            <img src="./images/collections-webp/mask/turquoise/child-turquoise-1.webp" alt="Turquoise mask">
+                                        </div>
+                                    </div>
+
+                                    <!-- 2 -->
+                                    <div class="swiper-slide">
+                                        <div class="product-slide" data-images='[
+                        "../../images/collections-webp/mask/pink/child-pink-1.webp",
+                        "../../images/collections-webp/mask/pink/child-pink-2.webp",
+                        "../../images/collections-webp/mask/pink/child-pink-3.webp",
+                        "../../images/collections-webp/mask/pink/child-pink-4.webp"
+                    ]' data-title="Очки детские серии Mask">
+                                            <img src="./images/collections-webp/mask/pink/child-pink-1.webp" alt="Pink mask">
+                                        </div>
+                                    </div>
+
+                                    <!-- 3 -->
+                                    <div class="swiper-slide">
+                                        <div class="product-slide" data-images='[
+                        "../../images/collections-webp/mask/blue/child-blue-1.webp",
+                        "../../images/collections-webp/mask/blue/child-blue-2.webp",
+                        "../../images/collections-webp/mask/blue/child-blue-3.webp",
+                        "../../images/collections-webp/mask/blue/child-blue-4.webp"
+                    ]' data-title="Очки детские серии Mask">
+                                            <img src="./images/collections-webp/mask/blue/child-blue-1.webp" alt="Blue mask">
+                                        </div>
+                                    </div>
+
+                                    <!-- 4 -->
+                                    <div class="swiper-slide">
+                                        <div class="product-slide" data-images='[
+                        "../../images/collections-webp/mask/black/child-black-1.webp",
+                        "../../images/collections-webp/mask/black/child-black-2.webp",
+                        "../../images/collections-webp/mask/black/child-black-3.webp",
+                        "../../images/collections-webp/mask/black/child-black-4.webp"
+                    ]' data-title="Очки детские серии Mask">
+                                            <img src="./images/collections-webp/mask/black/child-black-1.webp" alt="Black mask">
+                                        </div>
+                                    </div>
+
+                                    <!-- 5 -->
+                                    <div class="swiper-slide">
+                                        <div class="product-slide" data-images='[
+                        "../../images/collections-webp/mask/violet/child-violet-1.webp",
+                        "../../images/collections-webp/mask/violet/child-violet-2.webp",
+                        "../../images/collections-webp/mask/violet/child-violet-3.webp",
+                        "../../images/collections-webp/mask/violet/child-violet-4.webp"
+                    ]' data-title="Очки детские серии Mask">
+                                            <img src="./images/collections-webp/mask/violet/child-violet-1.webp" alt="Violet mask">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Стрелки -->
+                            <div class="swiper-button-prev">
+                                <svg class="icon icon--left">
+                                    <use href="./icons/symbol/sprite.svg#left"></use>
+                                </svg>
+                            </div>
+                            <div class="swiper-button-next">
+                                <svg class="icon icon--right">
+                                    <use href="./icons/symbol/sprite.svg#right"></use>
+                                </svg>
+                            </div>
+
+                            <!-- Пагинация (для мобилок) -->
+                            <div class="swiper-pagination"></div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </main>
+        <footer class="footer">
+            <div class="container h-100">
+                <div class="h-100 d-flex justify-content-between">
+                    <a href="#">Политика конфиденциальности</a>
+                    <ul>
+                        <li><a href="#">info@oced.ru</a></li>
+                        <li>2025 Oced. Все права защищены</li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <div id="slider-buffer" style="position:absolute; top:-9999px; left:-9999px; width:1px; height:1px; overflow:hidden;"></div>
+    <script src="vendor/js/helpers.js"></script>
+    <script src="vendor/js/bootstrap.js"></script>
+    <!-- JS Swiper -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
+    <script src="vendor/js/main.js"></script>
+
+
+</body>
+
+</html>

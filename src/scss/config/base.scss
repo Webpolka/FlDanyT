@@ -1,0 +1,125 @@
+/* ------------------------------------------------------------------------------------------------------------------------------
+BASE
+--------------------------------------------------------------------------------------------------------------------------------*/
+* {
+	margin: 0;
+	border: 0;
+	padding: 0;
+	-webkit-tap-highlight-color: transparent;
+
+	&,
+	&::before,
+	&::after {
+		box-sizing: border-box;
+	}
+
+	&:focus,
+	&:active {
+		outline: none;
+	}
+}
+
+nav,
+footer,
+header,
+aside {
+	display: block;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+html,
+body {
+	inline-size: 100%;
+	block-size: 100%;
+}
+
+body {
+	overscroll-behavior: none;
+	text-rendering: optimizelegibility;
+	text-size-adjust: 100%;
+	font-family: var(--font-main);
+	font-size: rem(16);
+	font-weight: 400;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	text-wrap: balance;
+}
+
+svg{
+	max-width: 50px;
+	max-height: 50px;
+}
+
+* {
+	&::-webkit-scrollbar {
+		inline-size: rem(8);
+		background-color: var(--scrollbar);
+	}
+
+	&::-webkit-scrollbar-track {
+		border-radius: rem(10);
+		box-shadow: inset 0 0 rem(6) rgba(#000, 20%);
+		background: var(--scrollbar-track);
+	}
+
+	&::-webkit-scrollbar-thumb {
+		border-radius: rem(10);
+		border: 0 none #fff;
+		background-color: var(--scrollbar-thumb);
+		cursor: pointer;
+
+		@include any-hover {
+			background-color: grey;
+		}
+	}
+}
+.container {
+	margin-inline: auto;
+	min-inline-size: rem(320);
+	max-inline-size: var(--container-width);
+	padding-inline: var(--container-padding-desktop);
+	@include lg {
+		padding-inline: var(--container-padding-large);
+	}
+	@include sm {
+		padding-inline: var(--container-padding-small);
+	}
+}
+
+.img-responsive {
+	display: block;
+	width: 100%;
+	height: auto;
+	object-fit: cover;
+	overflow: hidden;
+}
+
+.image-bg {
+	position: relative;
+
+	img {
+		display: block;
+		position: absolute;
+		inset-block-start: 0;
+		inset-inline-start: 0;
+		object-fit: cover;
+		block-size: 100%;
+		inline-size: 100%;
+	}
+}
+
+.wrapper {
+	display: flex;
+	min-block-size: 100%;
+
+	/** Поменять на clip - если используется в проекте position: sticky */
+	overflow: clip;
+	flex-direction: column;
+}
+
+.main {
+	position: relative;
+	flex: 1 1 auto;
+}
