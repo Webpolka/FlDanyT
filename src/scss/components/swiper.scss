@@ -15,7 +15,7 @@
 	.product-slide,
 	.product-variant {
 		display: block;
-		border-radius: 12px;		
+		border-radius: 12px;
 		border: 1px solid transparent;
 		cursor: pointer;
 		overflow: hidden;
@@ -36,7 +36,7 @@
 
 	&.hovered {
 		.swiper-button-prev {
-			 transform: translateX(0);
+			transform: translateX(0);
 		}
 
 		.swiper-button-next {
@@ -44,8 +44,6 @@
 		}
 	}
 }
-
-
 
 .swiper.product-variant {
 	display: block;
@@ -80,7 +78,7 @@
 	top: 50%;
 	cursor: pointer;
 	z-index: 10;
-    transition: all 0.65s ease-in-out;
+	transition: all 0.65s ease-in-out;
 
 	@include lg {
 		width: 40px;
@@ -94,12 +92,12 @@
 
 .swiper-button-prev {
 	left: 0;
-    transform: translateX(-30vw);
+	transform: translateX(-30vw);
 }
 
 .swiper-button-next {
 	right: 0;
-    transform: translateX(30vw);
+	transform: translateX(30vw);
 }
 
 .swiper-button-prev svg,
@@ -144,4 +142,14 @@
 .swiper-pagination-bullet-active {
 	background: var(--accent);
 	opacity: 1;
+}
+
+.sliderModal {
+	.swiper-button-prev {
+		transform: translateX(0);
+	}
+
+	.swiper-button-next {
+		transform: translateX(0);
+	}
 }
