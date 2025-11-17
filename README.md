@@ -1,15 +1,13 @@
-# Start Template: Gulp + WebPack + ESBuild-Loader + TailWind
+# Start Template: Gulp + WebPack + ESBuild-Loader
 
 
 ## Для работы используйте такие команды
 
 - Для установки всех зависимостей: `npm install`;
 - Для запуска сборщика Gulp нужно использовать: `npm run dev`;
-- Если ввести `gulp` то TailWind не будет работать !
 
 ## Что умеет ?
 
-- полная поддержка Tailwindcss
 - собирает SCSS файлы, добавляет вендорные префиксы;
 - сортирует и группирует медиа-запросы;
 - конвертирует шрифты в `.ttf`, и из `.ttf` в `woff/woff2`;
