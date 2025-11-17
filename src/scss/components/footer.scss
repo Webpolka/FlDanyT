@@ -18,8 +18,7 @@ FOOTER
 
 	.justify-content-between {
 		align-items: end;
-
-		@include sm {
+			@include sm {
 			padding-right: 15px;
 			padding-left: 15px;
 		}

@@ -16,6 +16,7 @@
 
 
 <body>
+
     <div class="wrapper">
         <header class="header">
             <div class="container justify-content-end">
@@ -326,11 +327,10 @@
 
                     </div>
                 </div>
-
             </div>
         </main>
         <footer class="footer">
-            <div class="container h-100">
+            <div class="container h-100 position-relative">
                 <div class="h-100 d-flex justify-content-between">
                     <a href="#">Политика конфиденциальности</a>
                     <ul>
@@ -343,7 +343,13 @@
 
     </div>
 
-    <div id="slider-buffer" style="position:absolute; top:-9999px; left:-9999px; width:1px; height:1px; overflow:hidden;"></div>
+    <!-- Кнопка вернуться наверх -->
+    <button id="back-to-top" title="Наверх">
+        <svg class="icon icon--up">
+            <use href="./icons/symbol/sprite.svg#up"></use>
+        </svg>
+    </button>
+
     <script src="vendor/js/helpers.js"></script>
     <script src="vendor/js/bootstrap.js"></script>
     <!-- JS Swiper -->

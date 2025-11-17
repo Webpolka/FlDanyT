@@ -11,7 +11,7 @@ ROOT
 --------------------------------------------------------------------------------------------------------------------------------*/
 :root {
   --container-width: 78.125rem;
-  --container-padding-desktop: 0.9375rem;
+  --container-padding-desktop: 1.875rem;
   --container-padding-large: 0.9375rem;
   --container-padding-small: 0;
   --font-main: "Montserrat", sans-serif;
@@ -269,6 +269,41 @@ COMPONENTS
     transform: translateX(-32.35%);
   }
 }
+:root {
+  --dynamic-site-width: 0; /* будем обновлять через JS */
+}
+
+/* Стили для кнопки */
+#back-to-top {
+  position: fixed;
+  bottom: 5.625rem;
+  right: calc(50% + var(--dynamic-site-width) / 2 - 0.3125rem);
+  transform: translateX(100%);
+  background-color: var(--accent);
+  width: 3.125rem;
+  height: 3.125rem;
+  border-radius: 50%;
+  cursor: pointer;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.5s ease-in-out;
+  z-index: 9999;
+}
+#back-to-top svg {
+  width: 100%;
+  aspect-ratio: 1/1;
+  fill: white;
+}
+
+#back-to-top.is-active {
+  visibility: visible;
+  opacity: 1;
+}
+
+#back-to-top:hover {
+  filter: brightness(1.2);
+}
+
 /* ------------------------------------------------------------------------------------------------------------------------------
 FOOTER
 --------------------------------------------------------------------------------------------------------------------------------*/
@@ -649,6 +684,9 @@ MEDIAQUERIES
   }
   .wiggle-slow {
     animation: wiggle 1.5s ease-in-out infinite alternate;
+  }
+  #back-to-top {
+    display: none;
   }
   .footer {
     height: 3.4375rem;

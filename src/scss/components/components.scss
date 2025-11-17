@@ -118,7 +118,6 @@ COMPONENTS
 		transition: all 0.3s ease-in-out;
 		&:hover {
 			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
-			
 		}
 	}
 }
@@ -157,9 +156,9 @@ COMPONENTS
 		padding-inline: 15px;
 	}
 }
-.transform-scalewrap{
+.transform-scalewrap {
 	transition: all 0.3s ease-in-out;
-	&:hover{
+	&:hover {
 		transform: scale(1.05);
 	}
 }
@@ -172,8 +171,49 @@ COMPONENTS
 @keyframes wiggle {
 	0% {
 		transform: translateX(-31.35%);
-	}	
+	}
 	100% {
 		transform: translateX(-32.35%);
 	}
+}
+
+:root {
+	--dynamic-site-width: 0px; /* будем обновлять через JS */
+}
+
+/* Стили для кнопки */
+#back-to-top {
+	position: fixed;
+	bottom: 90px;
+
+	right: calc(50% + var(--dynamic-site-width) / 2 - 5px);
+	transform: translateX(100%);
+
+	background-color: var(--accent);
+	width: 50px;
+	height: 50px;
+
+	border-radius: 50%;
+	cursor: pointer;
+	visibility: hidden;
+	opacity: 0;
+	transition: all 0.5s ease-in-out;
+	z-index: 9999;
+
+	@include sm{
+		display: none;
+	}
+
+	svg {
+		width: 100%;
+		aspect-ratio: 1/1;
+		fill: white;
+	}
+}
+#back-to-top.is-active {
+	visibility: visible;
+	opacity: 1;
+}
+#back-to-top:hover {
+	filter: brightness(1.2);
 }
