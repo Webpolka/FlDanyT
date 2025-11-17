@@ -64,6 +64,11 @@ aside {
 
 html {
   scroll-behavior: smooth;
+  opacity: 0.5;
+  transition: opacity 0.65s ease-in-out;
+}
+html.loaded {
+  opacity: 1;
 }
 
 html,
