@@ -96,22 +96,6 @@ svg {
   max-height: 3.125rem;
 }
 
-*::-webkit-scrollbar {
-  inline-size: 0.5rem;
-  background-color: var(--scrollbar);
-}
-*::-webkit-scrollbar-track {
-  border-radius: 0.625rem;
-  box-shadow: inset 0 0 0.375rem rgba(0, 0, 0, 0.2);
-  background: var(--scrollbar-track);
-}
-*::-webkit-scrollbar-thumb {
-  border-radius: 0.625rem;
-  border: 0 none #fff;
-  background-color: var(--scrollbar-thumb);
-  cursor: pointer;
-}
-
 .container {
   margin-inline: auto;
   min-inline-size: 20rem;
@@ -201,6 +185,14 @@ COMPONENTS
   align-items: center;
   gap: 0.75rem;
   width: 100%;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+.custom-group > * {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 .custom-group__banner {
   display: block;
@@ -223,6 +215,9 @@ COMPONENTS
   -o-object-fit: cover;
      object-fit: cover;
   overflow: hidden;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 .custom-group a.custom-group__banner {
   transition: all 0.3s ease-in-out;
@@ -252,7 +247,7 @@ COMPONENTS
 }
 
 @keyframes wiggle {
-  0% {
+  50% {
     transform: translateX(-31.35%);
   }
   100% {
@@ -307,6 +302,7 @@ FOOTER
 }
 .footer .justify-content-between {
   align-items: end;
+  padding-inline: 2.8125rem;
 }
 .footer ul {
   margin: 0;
@@ -624,6 +620,9 @@ MEDIAQUERIES
   .tile h2 {
     font-size: 1.375rem;
   }
+  .footer .justify-content-between {
+    padding-inline: 1.875rem;
+  }
   .popup__window {
     padding: 1.875rem;
   }
@@ -656,9 +655,9 @@ MEDIAQUERIES
     gap: 0.75rem;
   }
   .custom-group {
-    width: 275%;
-    gap: 0;
     transform: translateX(-31.85%);
+    width: 275%;
+    gap: 0.4375rem;
   }
   .custom-group__banner:nth-child(1) {
     width: 33.33%;
@@ -687,11 +686,10 @@ MEDIAQUERIES
   }
   .footer {
     height: 3.4375rem;
-    font-size: 0.53125rem;
+    font-size: 0.6875rem;
   }
   .footer .justify-content-between {
-    padding-right: 0.9375rem;
-    padding-left: 0.9375rem;
+    padding-inline: 0.9375rem;
   }
   .footer ul li:first-child {
     margin-bottom: 0.25rem;
@@ -715,9 +713,9 @@ MEDIAQUERIES
     display: block;
   }
 }
-@media (any-hover: hover){
-  *::-webkit-scrollbar-thumb:hover {
-    background-color: grey;
+@media (max-width: 440px){
+  .footer {
+    font-size: 0.53125rem;
   }
 }
 /*# sourceMappingURL=main.min.css.map */

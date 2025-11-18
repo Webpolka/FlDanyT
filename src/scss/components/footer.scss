@@ -13,14 +13,23 @@ FOOTER
 
 	@include sm {
 		height: 55px;
+		font-size: 11px;
+	}
+
+	@media (max-width:440px){
 		font-size: 8.5px;
 	}
 
 	.justify-content-between {
 		align-items: end;
-			@include sm {
-			padding-right: 15px;
-			padding-left: 15px;
+		padding-inline: 45px;
+
+		@include lg {
+			padding-inline: 30px;
+		}
+
+		@include sm {
+			padding-inline: 15px;
 		}
 	}
 

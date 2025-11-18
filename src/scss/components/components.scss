@@ -71,11 +71,16 @@ COMPONENTS
 	align-items: center;
 	gap: 12px;
 	width: 100%;
+	user-select: none;
+
+	& > * {
+		user-select: none;
+	}
 
 	@include sm {
-		width: 275%;
-		gap: 0;
 		transform: translateX(-31.85%);
+		width: 275%;
+		gap: 7px;
 	}
 	// Banners
 	&__banner {
@@ -111,6 +116,7 @@ COMPONENTS
 			height: auto;
 			object-fit: cover;
 			overflow: hidden;
+			user-select: none;
 		}
 	}
 
@@ -168,8 +174,8 @@ COMPONENTS
 		animation: wiggle 1.5s ease-in-out infinite alternate;
 	}
 }
-@keyframes wiggle {
-	0% {
+@keyframes wiggle {	
+	50% {
 		transform: translateX(-31.35%);
 	}
 	100% {
@@ -200,7 +206,7 @@ COMPONENTS
 	transition: all 0.5s ease-in-out;
 	z-index: 9999;
 
-	@include sm{
+	@include sm {
 		display: none;
 	}
 
