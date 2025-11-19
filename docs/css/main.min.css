@@ -173,59 +173,6 @@ COMPONENTS
   box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.12);
 }
 
-.custom {
-  position: relative;
-  display: flex;
-  gap: 1.875rem;
-  flex-direction: column;
-}
-
-.custom-group {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  width: 100%;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
-}
-.custom-group > * {
-  -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
-}
-.custom-group__banner {
-  display: block;
-  border-radius: 0.75rem;
-  overflow: hidden;
-}
-.custom-group__banner:nth-child(1) {
-  width: 31.5%;
-}
-.custom-group__banner:nth-child(2) {
-  width: 37%;
-}
-.custom-group__banner:nth-child(3) {
-  width: 31.5%;
-}
-.custom-group__banner img {
-  display: block;
-  width: 100%;
-  height: auto;
-  -o-object-fit: cover;
-     object-fit: cover;
-  overflow: hidden;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
-}
-.custom-group a.custom-group__banner {
-  transition: all 0.3s ease-in-out;
-}
-.custom-group a.custom-group__banner:hover {
-  box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.12);
-}
-
 .tile {
   border-radius: 1.25rem 1.25rem 0 0;
   background-color: var(--white);
@@ -246,19 +193,13 @@ COMPONENTS
   transform: scale(1.05);
 }
 
-@keyframes wiggle {
-  50% {
-    transform: translateX(-31.35%);
-  }
-  100% {
-    transform: translateX(-32.35%);
-  }
-}
+/* -----------------------------------------------------------------------------------------------------------------------------
+Back to top button
+--------------------------------------------------------------------------------------------------------------------------------*/
 :root {
   --dynamic-site-width: 0; /* будем обновлять через JS */
 }
 
-/* Стили для кнопки */
 #back-to-top {
   position: fixed;
   bottom: 5.625rem;
@@ -289,6 +230,103 @@ COMPONENTS
   filter: brightness(1.2);
 }
 
+/* -----------------------------------------------------------------------------------------------------------------------------
+CUSTOM Banner slider 
+--------------------------------------------------------------------------------------------------------------------------------*/
+:root {
+  --bannersPos: -31.85%;
+  --animationDuration: 500ms;
+}
+
+.custom {
+  position: relative;
+  display: flex;
+  gap: 1.875rem;
+  flex-direction: column;
+}
+.custom-slider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+.custom-slider > * {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+.custom-slider__banner {
+  display: block;
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+.custom-slider__banner:nth-child(1) {
+  width: 31.5%;
+}
+.custom-slider__banner:nth-child(2) {
+  width: 37%;
+}
+.custom-slider__banner:nth-child(3) {
+  width: 31.5%;
+}
+.custom-slider__banner img {
+  display: block;
+  width: 100%;
+  height: auto;
+  -o-object-fit: cover;
+     object-fit: cover;
+  overflow: hidden;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+.custom-slider a.custom-slider__banner {
+  transition: all 0.3s ease-in-out;
+}
+.custom-slider a.custom-slider__banner:hover {
+  box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.12);
+}
+
+.custom-slider {
+  /* position/size as needed */
+  --bannersPos: -31.85%;
+  /* base: no transition (we control via class) */
+  transition: none;
+  display: flex; /* или flex / inline-block - не inline */
+}
+
+/* while dragging - immediate, no transition */
+.custom-slider.dragging {
+  transition: none !important;
+  /* wiggle removed by JS */
+}
+
+/* returning / snapping - CSS controls duration using a CSS var if you want */
+.custom-slider.returning {
+  transition: transform var(--animationDuration, 1000ms) ease;
+}
+
+/* at-edge: holding state (no wiggle) */
+.custom-slider.at-edge {
+  transition: none !important;
+}
+
+/* wiggle: keyframe animation (starts only after returning removed) */
+.custom-slider.wiggle-slow {
+  animation: wiggleAnim 1500ms infinite alternate ease-in-out;
+}
+
+@keyframes wiggleAnim {
+  50% {
+    transform: translateX(calc(var(--bannersPos) - 0.5%));
+  }
+  100% {
+    transform: translateX(calc(var(--bannersPos) + 0.5%));
+  }
+}
 /* ------------------------------------------------------------------------------------------------------------------------------
 FOOTER
 --------------------------------------------------------------------------------------------------------------------------------*/
@@ -611,14 +649,14 @@ MEDIAQUERIES
   .container {
     padding-inline: var(--container-padding-large);
   }
-  .custom {
-    gap: 0.9375rem;
-  }
   .tile {
     padding: 0.625rem 1.5625rem 2.8125rem 1.5625rem;
   }
   .tile h2 {
     font-size: 1.375rem;
+  }
+  .custom {
+    gap: 0.9375rem;
   }
   .footer .justify-content-between {
     padding-inline: 1.875rem;
@@ -651,23 +689,6 @@ MEDIAQUERIES
     margin-inline: 0.9375rem;
     line-height: 125%;
   }
-  .custom {
-    gap: 0.75rem;
-  }
-  .custom-group {
-    transform: translateX(-31.85%);
-    width: 275%;
-    gap: 0.4375rem;
-  }
-  .custom-group__banner:nth-child(1) {
-    width: 33.33%;
-  }
-  .custom-group__banner:nth-child(2) {
-    width: 33.33%;
-  }
-  .custom-group__banner:nth-child(3) {
-    width: 33.33%;
-  }
   .tile h2 {
     padding-block-start: 0.625rem;
     padding-block-end: 0.625rem;
@@ -678,11 +699,27 @@ MEDIAQUERIES
   .tile h2 {
     font-size: 0.9375rem;
   }
-  .wiggle-slow {
-    animation: wiggle 1.5s ease-in-out infinite alternate;
-  }
   #back-to-top {
     display: none;
+  }
+  .custom {
+    gap: 0.75rem;
+  }
+  .custom-slider {
+    width: 275%;
+    gap: 0.4375rem;
+  }
+  .custom-slider__banner:nth-child(1) {
+    width: 33.33%;
+  }
+  .custom-slider__banner:nth-child(2) {
+    width: 33.33%;
+  }
+  .custom-slider__banner:nth-child(3) {
+    width: 33.33%;
+  }
+  .custom-slider {
+    transform: translateX(var(--bannersPos));
   }
   .footer {
     height: 3.4375rem;

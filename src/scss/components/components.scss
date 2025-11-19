@@ -51,83 +51,6 @@ COMPONENTS
 	}
 }
 
-.custom {
-	position: relative;
-	display: flex;
-	gap: 30px;
-	flex-direction: column;
-
-	@include lg {
-		gap: 15px;
-	}
-
-	@include sm {
-		gap: 12px;
-	}
-}
-
-.custom-group {
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	width: 100%;
-	user-select: none;
-
-	& > * {
-		user-select: none;
-	}
-
-	@include sm {
-		transform: translateX(-31.85%);
-		width: 275%;
-		gap: 7px;
-	}
-	// Banners
-	&__banner {
-		display: block;
-		border-radius: 12px;
-		overflow: hidden;
-
-		&:nth-child(1) {
-			width: 31.5%;
-		}
-		&:nth-child(2) {
-			width: 37%;
-		}
-		&:nth-child(3) {
-			width: 31.5%;
-		}
-
-		@include sm {
-			&:nth-child(1) {
-				width: 33.33%;
-			}
-			&:nth-child(2) {
-				width: 33.33%;
-			}
-			&:nth-child(3) {
-				width: 33.33%;
-			}
-		}
-
-		img {
-			display: block;
-			width: 100%;
-			height: auto;
-			object-fit: cover;
-			overflow: hidden;
-			user-select: none;
-		}
-	}
-
-	a.custom-group__banner {
-		transition: all 0.3s ease-in-out;
-		&:hover {
-			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
-		}
-	}
-}
-
 // Tile
 .tile {
 	border-radius: 20px 20px 0 0;
@@ -169,25 +92,14 @@ COMPONENTS
 	}
 }
 
-.wiggle-slow {
-	@include sm {
-		animation: wiggle 1.5s ease-in-out infinite alternate;
-	}
-}
-@keyframes wiggle {	
-	50% {
-		transform: translateX(-31.35%);
-	}
-	100% {
-		transform: translateX(-32.35%);
-	}
-}
+/* -----------------------------------------------------------------------------------------------------------------------------
+Back to top button
+--------------------------------------------------------------------------------------------------------------------------------*/
 
 :root {
 	--dynamic-site-width: 0px; /* будем обновлять через JS */
 }
 
-/* Стили для кнопки */
 #back-to-top {
 	position: fixed;
 	bottom: 90px;
@@ -222,4 +134,129 @@ COMPONENTS
 }
 #back-to-top:hover {
 	filter: brightness(1.2);
+}
+
+/* -----------------------------------------------------------------------------------------------------------------------------
+CUSTOM Banner slider 
+--------------------------------------------------------------------------------------------------------------------------------*/
+:root {
+	--bannersPos: -31.85%;
+	--animationDuration: 500ms;
+}
+
+.custom {
+	position: relative;
+	display: flex;
+	gap: 30px;
+	flex-direction: column;
+
+	@include lg {
+		gap: 15px;
+	}
+
+	@include sm {
+		gap: 12px;
+	}
+
+	&-slider {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		width: 100%;
+		user-select: none;
+
+		& > * {
+			user-select: none;
+		}
+
+		@include sm {
+			width: 275%;
+			gap: 7px;
+		}
+		// Banners
+		&__banner {
+			display: block;
+			border-radius: 12px;
+			overflow: hidden;
+
+			&:nth-child(1) {
+				width: 31.5%;
+			}
+			&:nth-child(2) {
+				width: 37%;
+			}
+			&:nth-child(3) {
+				width: 31.5%;
+			}
+
+			@include sm {
+				&:nth-child(1) {
+					width: 33.33%;
+				}
+				&:nth-child(2) {
+					width: 33.33%;
+				}
+				&:nth-child(3) {
+					width: 33.33%;
+				}
+			}
+
+			img {
+				display: block;
+				width: 100%;
+				height: auto;
+				object-fit: cover;
+				overflow: hidden;
+				user-select: none;
+			}
+		}
+
+		a.custom-slider__banner {
+			transition: all 0.3s ease-in-out;
+			&:hover {
+				box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+			}
+		}
+	}
+}
+
+.custom-slider {
+	/* position/size as needed */
+	--bannersPos: -31.85%;
+	@include sm {
+		transform: translateX(var(--bannersPos));
+	}
+	/* base: no transition (we control via class) */
+	transition: none;
+	display: flex; /* или flex / inline-block - не inline */
+}
+
+/* while dragging - immediate, no transition */
+.custom-slider.dragging {
+	transition: none !important;
+	/* wiggle removed by JS */
+}
+
+/* returning / snapping - CSS controls duration using a CSS var if you want */
+.custom-slider.returning {
+	transition: transform var(--animationDuration, 1000ms) ease;
+}
+
+/* at-edge: holding state (no wiggle) */
+.custom-slider.at-edge {
+	transition: none !important;
+}
+
+/* wiggle: keyframe animation (starts only after returning removed) */
+.custom-slider.wiggle-slow {
+	animation: wiggleAnim 1500ms infinite alternate ease-in-out;
+}
+
+@keyframes wiggleAnim {
+	50% {
+		transform: translateX(calc(var(--bannersPos) - 0.5%));
+	}	
+	100% {
+		transform: translateX(calc(var(--bannersPos) + 0.5%));
+	}
 }

@@ -78,7 +78,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // Запуск
     runSequencePingPong();
 
-    // === Popup слайдер ===
+
+    /* ------------------------------------------------------------------------------------------------------------------------------
+   POPUP SLIDER
+    ----------------------------------------------------------------------------------------------------------------*/
+
     let popupSwiper = null;
     const popup = document.getElementById("popup");
     const popupSliderEl = document.querySelector("#popupSlider .swiper-wrapper");
@@ -179,389 +183,283 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /* ------------------------------------------------------------------------------------------------------------------------------
-    BANNERS TOUCH + MOUSE SLIDER (mobile only) with link-disable during drag
+   CUSTOM SLIDER + BANNERS TOUCH + MOUSE SLIDER (mobile only) with link-disable during drag + edge delay
     ----------------------------------------------------------------------------------------------------------------*/
-    // const touchSlider = document.querySelector(".custom-group");
+    // --- FULL robust slider JS with snapping, returning and wiggle ---
+    // Expects CSS to use: transform: translateX(var(--bannersPos));
+    // and classes: .dragging, .returning, .at-edge, .wiggle-slow
+    // CSS must define transition for .returning (using --animationDuration), wiggle-slow is keyframes.
 
-    // let startPercent = -31.85;
-    // let currentPercent = startPercent;
-    // const minPercent = -65;
-    // const maxPercent = 1.4;
-    // const sensitivity = 2.0;
+    (function () {
+        const customSlider = document.querySelector(".custom-slider");
+        if (!customSlider) return;
 
-    // let isDown = false;
-    // let moved = false;
-    // let startX = 0;
+        // config
+        const startPercent = -31.85;
+        let currentPercent = startPercent;
+        const minPercent = -65;
+        const maxPercent = 1.4;
+        const sensitivity = 2.0; // multiplier for drag sensitivity
+        const holdDuration = 5000; // ms to hold at edge
 
-    // // Получаем все ссылки внутри слайдера
-    // const sliderLinks = touchSlider.querySelectorAll("a");
+        // internal state
+        let isDown = false;
+        let moved = false;
+        let startX = 0;
+        let dragStartPercent = startPercent;
+        let edgeTimeout = null;
+        let returnTimer = null; // timer for finishing return and adding wiggle
 
-    // // Получаем ширину контейнера
-    // function getContainerWidth() {
-    //     return touchSlider.offsetWidth;
-    // }
+        const sliderLinks = customSlider.querySelectorAll("a");
 
-    // // === ОБЩИЕ ФУНКЦИИ ДЛЯ ДВИЖЕНИЯ ===
-    // function startDrag(x) {
-    //     isDown = true;
-    //     moved = false;
-    //     startX = x;
-
-    //     touchSlider.classList.remove("wiggle-slow");
-    //     touchSlider.style.removeProperty("transition");
-
-
-    //     setTimeout(() => {
-    //         if (!moved) {
-    //             touchSlider.classList.add("wiggle-slow");
-    //         }
-    //     }, 500);
-    // }
-
-
-
-    // function moveDrag(x) {
-    //     if (!isDown) return;
-
-    //     const deltaPx = x - startX;
-    //     if (Math.abs(deltaPx) > 2) moved = true;
-
-    //     // отключаем ссылки только если движение реально началось
-    //     sliderLinks.forEach(link => {
-    //         link.style.pointerEvents = "none";
-    //     });
-
-    //     const containerWidth = getContainerWidth();
-    //     let deltaPercent = (deltaPx / containerWidth) * 100;
-    //     deltaPercent *= sensitivity;
-
-    //     currentPercent = startPercent + deltaPercent;
-
-    //     if (currentPercent < minPercent) currentPercent = minPercent;
-    //     if (currentPercent > maxPercent) currentPercent = maxPercent;
-
-    //     touchSlider.style.transform = `translateX(${currentPercent}%)`;
-    // }
-
-    // function endDrag() {
-    //     if (!isDown) return;
-    //     isDown = false;
-
-    //     touchSlider.style.transition = "transform 0.3s ease";
-    //     touchSlider.style.transform = `translateX(${startPercent}%)`;
-
-    //     const onTransitionEnd = () => {
-    //         touchSlider.classList.add("wiggle-slow");
-    //         touchSlider.removeEventListener("transitionend", onTransitionEnd);
-    //         touchSlider.style.removeProperty("transform");
-    //         touchSlider.style.removeProperty("transition");
-    //     };
-    //     touchSlider.addEventListener("transitionend", onTransitionEnd);
-
-    //     currentPercent = startPercent;
-    //     // включаем ссылки обратно
-    //     sliderLinks.forEach(link => {
-    //         link.style.pointerEvents = "";
-    //     });
-    // }
-
-    // // === TOUCH EVENT HANDLERS ===
-    // function touchStartHandler(e) {
-    //     startDrag(e.touches[0].clientX);
-    // }
-
-    // function touchMoveHandler(e) {
-    //     e.preventDefault();
-    //     moveDrag(e.touches[0].clientX);
-    // }
-
-    // function touchEndHandler() {
-    //     endDrag();
-    // }
-
-    // // === MOUSE EVENT HANDLERS ===
-    // function mouseDownHandler(e) {
-    //     startDrag(e.clientX);
-    //     document.addEventListener("mousemove", mouseMoveHandler);
-    //     document.addEventListener("mouseup", mouseUpHandler);
-    // }
-
-    // function mouseMoveHandler(e) {
-    //     moveDrag(e.clientX);
-    // }
-
-    // function mouseUpHandler(e) {
-    //     endDrag();
-    //     document.removeEventListener("mousemove", mouseMoveHandler);
-    //     document.removeEventListener("mouseup", mouseUpHandler);
-    // }
-
-    // // === CLICK PREVENT IF DRAGGED ===
-    // function clickHandler(e) {
-    //     if (moved) {
-    //         e.preventDefault();
-    //         e.stopImmediatePropagation();
-    //     }
-    // }
-
-    // // === ENABLE / DISABLE LISTENERS ===
-    // function enableSlider() {
-    //     touchSlider.style.transform = `translateX(${startPercent}%)`;
-
-    //     // TOUCH
-    //     touchSlider.addEventListener("touchstart", touchStartHandler, { passive: false });
-    //     touchSlider.addEventListener("touchmove", touchMoveHandler, { passive: false });
-    //     touchSlider.addEventListener("touchend", touchEndHandler);
-
-    //     // MOUSE
-    //     touchSlider.addEventListener("mousedown", mouseDownHandler);
-
-    //     // CLICK
-    //     touchSlider.addEventListener("click", clickHandler);
-    // }
-
-    // function disableSlider() {
-    //     // TOUCH
-    //     touchSlider.removeEventListener("touchstart", touchStartHandler);
-    //     touchSlider.removeEventListener("touchmove", touchMoveHandler);
-    //     touchSlider.removeEventListener("touchend", touchEndHandler);
-
-    //     // MOUSE
-    //     touchSlider.removeEventListener("mousedown", mouseDownHandler);
-
-    //     // CLICK
-    //     touchSlider.removeEventListener("click", clickHandler);
-
-    //     // Inline styles
-    //     touchSlider.style.removeProperty("transform");
-    //     touchSlider.style.removeProperty("transition");
-
-    // }
-
-    // // === MOBILE CHECK ===
-    // function handleScreenChange() {
-    //     if (window.matchMedia("(max-width: 576px)").matches) {
-    //         enableSlider();
-    //     } else {
-    //         disableSlider();
-    //     }
-    // }
-
-    // // Инициализация
-    // window.addEventListener("load", handleScreenChange);
-    // window.addEventListener("resize", handleScreenChange);
-    // window.addEventListener("orientationchange", handleScreenChange);
-
-
-
-    /* ------------------------------------------------------------------------------------------------------------------------------
-    BANNERS TOUCH + MOUSE SLIDER (mobile only) with link-disable during drag + edge delay
-    ----------------------------------------------------------------------------------------------------------------*/
-    /* ------------------------------------------------------------------------------------------------------------------------------
-    BANNERS TOUCH + MOUSE SLIDER (mobile only) with link-disable during drag + edge delay + current position drag
-    ----------------------------------------------------------------------------------------------------------------*/
-    const touchSlider = document.querySelector(".custom-group");
-
-    let startPercent = -31.85;
-    let currentPercent = startPercent;
-    const minPercent = -65;
-    const maxPercent = 1.4;
-    const sensitivity = 2.0;
-
-    let isDown = false;
-    let moved = false;
-    let startX = 0;
-    let dragStartPercent = startPercent; // добавляем переменную для drag
-    let edgeTimeout = null; // таймер для задержки на краю
-
-    // Получаем все ссылки внутри слайдера
-    const sliderLinks = touchSlider.querySelectorAll("a");
-
-    // Получаем ширину контейнера
-    function getContainerWidth() {
-        return touchSlider.offsetWidth;
-    }
-
-    // === ОБЩИЕ ФУНКЦИИ ДЛЯ ДВИЖЕНИЯ ===
-    function startDrag(x) {
-        isDown = true;
-        moved = false;
-
-        // если был таймер для возврата, отменяем
-        if (edgeTimeout) {
-            clearTimeout(edgeTimeout);
-            edgeTimeout = null;
+        // read animation duration from CSS variable, robust parsing
+        function readAnimationDuration() {
+            const raw = getComputedStyle(customSlider).getPropertyValue("--animationDuration")
+                || getComputedStyle(document.documentElement).getPropertyValue("--animationDuration")
+                || "";
+            const s = raw.trim();
+            if (!s) return 1000;
+            if (s.endsWith("ms")) return parseFloat(s);
+            if (s.endsWith("s")) return parseFloat(s) * 1000;
+            // fallback numeric
+            const n = parseFloat(s);
+            return Number.isFinite(n) ? n : 1000;
         }
 
-        startX = x;
-        dragStartPercent = currentPercent; // берём текущее положение как стартовую точку drag
+        // helper to set CSS variable position
+        function setPos(percent) {
+            customSlider.style.setProperty("--bannersPos", percent + "%");
 
-        touchSlider.classList.remove("wiggle-slow");
-        touchSlider.style.removeProperty("transition");
+        }
 
-        setTimeout(() => {
-            if (!moved) {
-                touchSlider.classList.add("wiggle-slow");
+        function clearReturnTimer() {
+            if (returnTimer) {
+                clearTimeout(returnTimer);
+                returnTimer = null;
             }
-        }, 500);
-    }
-
-    function moveDrag(x) {
-        if (!isDown) return;
-
-        const deltaPx = x - startX;
-        if (Math.abs(deltaPx) > 2) moved = true;
-
-        // отключаем ссылки только если движение реально началось
-        sliderLinks.forEach(link => {
-            link.style.pointerEvents = "none";
-        });
-
-        const containerWidth = getContainerWidth();
-        let deltaPercent = (deltaPx / containerWidth) * 100;
-        deltaPercent *= sensitivity;
-
-        currentPercent = dragStartPercent + deltaPercent; // используем dragStartPercent вместо startPercent
-
-        if (currentPercent < minPercent) currentPercent = minPercent;
-        if (currentPercent > maxPercent) currentPercent = maxPercent;
-
-        touchSlider.style.transform = `translateX(${currentPercent}%)`;
-    }
-
-    function endDrag() {
-        if (!isDown) return;
-        isDown = false;
-
-        // включаем ссылки обратно
-        sliderLinks.forEach(link => {
-            link.style.pointerEvents = "";
-        });
-
-        // если дотянули до края — задержка 3 сек
-        if (currentPercent === minPercent || currentPercent === maxPercent) {
-            edgeTimeout = setTimeout(() => {
-                touchSlider.style.transition = "transform 0.3s ease";
-                touchSlider.style.transform = `translateX(${startPercent}%)`;
-
-                const onTransitionEnd = () => {
-                    touchSlider.classList.add("wiggle-slow");
-                    touchSlider.removeEventListener("transitionend", onTransitionEnd);
-                    touchSlider.style.removeProperty("transform");
-                    touchSlider.style.removeProperty("transition");
-                };
-                touchSlider.addEventListener("transitionend", onTransitionEnd);
-
-                currentPercent = startPercent;
+        }
+        function clearEdgeTimeout() {
+            if (edgeTimeout) {
+                clearTimeout(edgeTimeout);
                 edgeTimeout = null;
-            }, 5000); // 3 секунды задержка
-        } else {
-            // обычный возврат сразу
-            touchSlider.style.transition = "transform 0.3s ease";
-            touchSlider.style.transform = `translateX(${startPercent}%)`;
+            }
+        }
 
-            const onTransitionEnd = () => {
-                touchSlider.classList.add("wiggle-slow");
-                touchSlider.removeEventListener("transitionend", onTransitionEnd);
-                touchSlider.style.removeProperty("transform");
-                touchSlider.style.removeProperty("transition");
-            };
-            touchSlider.addEventListener("transitionend", onTransitionEnd);
+        // === START DRAG ===
+        function startDrag(x) {
+            isDown = true;
+            moved = false;
 
+            // stop any auto-return / wiggle timers and classes
+            clearEdgeTimeout();
+            clearReturnTimer();
+            customSlider.classList.remove("returning", "wiggle-slow", "at-edge");
+
+            startX = x;
+            dragStartPercent = currentPercent;
+
+            // visual state
+            customSlider.classList.add("dragging");
+        }
+
+        // === MOVE DRAG ===
+        function moveDrag(x) {
+            if (!isDown) return;
+
+            const delta = x - startX;
+            if (Math.abs(delta) > 2) moved = true;
+
+            // disable links while dragging
+            sliderLinks.forEach(a => (a.style.pointerEvents = "none"));
+
+            let deltaPercent = (delta / customSlider.offsetWidth) * 100;
+            deltaPercent *= sensitivity;
+
+            currentPercent = dragStartPercent + deltaPercent;
+
+            if (currentPercent < minPercent) currentPercent = minPercent;
+            if (currentPercent > maxPercent) currentPercent = maxPercent;
+
+            setPos(currentPercent);
+        }
+
+        // === ANIMATE RETURN TO CENTER (uses CSS .returning) ===
+        function animateReturnToCenter() {
+            // stop timers
+            clearEdgeTimeout();
+            clearReturnTimer();
+
+            // set logical state
             currentPercent = startPercent;
+            dragStartPercent = startPercent;
+            moved = false;
+
+            // set CSS variable and trigger transition class
+            setPos(startPercent);
+
+            // add returning class which must have CSS transition for transform
+            customSlider.classList.add("returning");
+
+            // schedule end-of-transition actions based on CSS duration
+            const duration = readAnimationDuration();
+            const safety = 40; // small extra ms
+
+            // clear previous timer if any
+            clearReturnTimer();
+
+            returnTimer = setTimeout(() => {
+                returnTimer = null;
+                customSlider.classList.remove("returning");
+                // after smooth return, start wiggle animation (CSS keyframes)
+                customSlider.classList.add("wiggle-slow");
+                // remove inline transform control? we keep using --bannersPos, wiggle CSS should use transform relative to original position
+                // note: we intentionally keep --bannersPos set to startPercent so keyframe can reference it if needed
+            }, Math.max(0, duration) + safety);
         }
-    }
 
-    // === TOUCH EVENT HANDLERS ===
-    function touchStartHandler(e) {
-        startDrag(e.touches[0].clientX);
-    }
+        // === SNAP TO EDGE (animate to min/max then hold) ===
+        function snapToEdge(edgePercent) {
+            // stop timers
+            clearEdgeTimeout();
+            clearReturnTimer();
 
-    function touchMoveHandler(e) {
-        e.preventDefault();
-        moveDrag(e.touches[0].clientX);
-    }
+            // set target
+            currentPercent = edgePercent;
+            dragStartPercent = edgePercent;
+            moved = false;
 
-    function touchEndHandler() {
-        endDrag();
-    }
+            // apply pos and add returning class to animate
+            setPos(edgePercent);
+            customSlider.classList.add("returning");
 
-    // === MOUSE EVENT HANDLERS ===
-    function mouseDownHandler(e) {
-        startDrag(e.clientX);
-        document.addEventListener("mousemove", mouseMoveHandler);
-        document.addEventListener("mouseup", mouseUpHandler);
-    }
+            // when snapped, mark at-edge and start hold timer
+            // wait for transition to finish (use CSS duration + safety)
+            const duration = readAnimationDuration();
+            const safety = 40;
 
-    function mouseMoveHandler(e) {
-        moveDrag(e.clientX);
-    }
+            // schedule: after transition -> remove returning, set at-edge state (no wiggle yet)
+            clearReturnTimer();
+            returnTimer = setTimeout(() => {
+                returnTimer = null;
+                customSlider.classList.remove("returning");
+                customSlider.classList.remove("wiggle-slow"); // ensure wiggle not active while holding
+                customSlider.classList.add("at-edge");
 
-    function mouseUpHandler(e) {
-        endDrag();
-        document.removeEventListener("mousemove", mouseMoveHandler);
-        document.removeEventListener("mouseup", mouseUpHandler);
-    }
-
-    // === CLICK PREVENT IF DRAGGED ===
-    function clickHandler(e) {
-        if (moved) {
-            e.preventDefault();
-            e.stopImmediatePropagation();
+                // hold for holdDuration then return to center
+                clearEdgeTimeout();
+                edgeTimeout = setTimeout(() => {
+                    customSlider.classList.remove("at-edge");
+                    edgeTimeout = null;
+                    animateReturnToCenter();
+                }, holdDuration);
+            }, Math.max(0, duration) + safety);
         }
-    }
 
-    // === ENABLE / DISABLE LISTENERS ===
-    function enableSlider() {
-        touchSlider.style.transform = `translateX(${startPercent}%)`;
+        // === END DRAG with snapping logic ===
+        function endDrag() {
+            if (!isDown) return;
+            isDown = false;
 
-        // TOUCH
-        touchSlider.addEventListener("touchstart", touchStartHandler, { passive: false });
-        touchSlider.addEventListener("touchmove", touchMoveHandler, { passive: false });
-        touchSlider.addEventListener("touchend", touchEndHandler);
+            // re-enable links
+            sliderLinks.forEach(a => (a.style.pointerEvents = ""));
 
-        // MOUSE
-        touchSlider.addEventListener("mousedown", mouseDownHandler);
+            customSlider.classList.remove("dragging");
 
-        // CLICK
-        touchSlider.addEventListener("click", clickHandler);
-    }
+            // compute snap thresholds (midpoints)
+            const leftSnapPoint = (startPercent + minPercent) / 2;
+            const rightSnapPoint = (startPercent + maxPercent) / 2;
 
-    function disableSlider() {
-        // TOUCH
-        touchSlider.removeEventListener("touchstart", touchStartHandler);
-        touchSlider.removeEventListener("touchmove", touchMoveHandler);
-        touchSlider.removeEventListener("touchend", touchEndHandler);
-
-        // MOUSE
-        touchSlider.removeEventListener("mousedown", mouseDownHandler);
-
-        // CLICK
-        touchSlider.removeEventListener("click", clickHandler);
-
-        // Inline styles
-        touchSlider.style.removeProperty("transform");
-        touchSlider.style.removeProperty("transition");
-
-        // если был таймер — сбрасываем
-        if (edgeTimeout) {
-            clearTimeout(edgeTimeout);
-            edgeTimeout = null;
+            if (currentPercent <= leftSnapPoint) {
+                // snap left
+                snapToEdge(minPercent);
+                return;
+            } else if (currentPercent >= rightSnapPoint) {
+                // snap right
+                snapToEdge(maxPercent);
+                return;
+            } else {
+                // didn't reach half -> return center
+                animateReturnToCenter();
+                return;
+            }
         }
-    }
 
-    // === MOBILE CHECK ===
-    function handleScreenChange() {
-        if (window.matchMedia("(max-width: 576px)").matches) {
-            enableSlider();
-        } else {
-            disableSlider();
+        // === CLICK HANDLER: if simple click while at-edge -> cancel hold and return ===
+        function clickHandler(e) {
+            if (moved) {
+                e.preventDefault();
+                return;
+            }
+
+            if (customSlider.classList.contains("at-edge")) {
+                // cancel hold and go to center immediately
+                clearEdgeTimeout();
+                customSlider.classList.remove("at-edge");
+                animateReturnToCenter();
+                e.preventDefault();
+            }
         }
-    }
 
-    // Инициализация
-    window.addEventListener("load", handleScreenChange);
-    window.addEventListener("resize", handleScreenChange);
-    window.addEventListener("orientationchange", handleScreenChange);
+        // === Event wrappers ===
+        function touchStart(e) { if (e.touches && e.touches[0]) startDrag(e.touches[0].clientX); }
+        function touchMove(e) { if (e.touches && e.touches[0]) { e.preventDefault(); moveDrag(e.touches[0].clientX); } }
+        function touchEnd() { endDrag(); }
+
+        function mouseStart(e) {
+            startDrag(e.clientX);
+            document.addEventListener("mousemove", mouseMove);
+            document.addEventListener("mouseup", mouseEnd);
+        }
+        function mouseMove(e) { moveDrag(e.clientX); }
+        function mouseEnd(e) {
+            endDrag();
+            document.removeEventListener("mousemove", mouseMove);
+            document.removeEventListener("mouseup", mouseEnd);
+        }
+
+        // === Enable / Disable ===
+        function enableSlider() {
+            // initialize CSS var and classes
+            setPos(startPercent);
+
+            customSlider.classList.remove("returning", "dragging", "at-edge");
+            customSlider.classList.add("wiggle-slow");
+
+            // listeners
+            customSlider.addEventListener("touchstart", touchStart, { passive: false });
+            customSlider.addEventListener("touchmove", touchMove, { passive: false });
+            customSlider.addEventListener("touchend", touchEnd);
+
+            customSlider.addEventListener("mousedown", mouseStart);
+            customSlider.addEventListener("click", clickHandler);
+        }
+
+        function disableSlider() {
+            customSlider.removeEventListener("touchstart", touchStart);
+            customSlider.removeEventListener("touchmove", touchMove);
+            customSlider.removeEventListener("touchend", touchEnd);
+
+            customSlider.removeEventListener("mousedown", mouseStart);
+            customSlider.removeEventListener("click", clickHandler);
+
+            customSlider.classList.remove("dragging", "returning", "at-edge", "wiggle-slow");
+            customSlider.style.removeProperty("--bannersPos");
+
+            clearEdgeTimeout();
+            clearReturnTimer();
+        }
+
+        // === Screen check (mobile only) ===
+        function handleScreen() {
+            if (window.matchMedia("(max-width: 576px)").matches) enableSlider();
+            else disableSlider();
+        }
+
+        // init
+        window.addEventListener("load", handleScreen);
+        window.addEventListener("resize", handleScreen);
+        window.addEventListener("orientationchange", handleScreen);
+
+    })();
 
 })
