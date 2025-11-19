@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
     const swipers = [];
-    const directions = []; // направление движения каждого слайдера
+    const directions = [];
+    let autoplayEnabled = window.innerWidth <= 768; // включено ли сейчас авто-листание
 
-    // Инициализация слайдеров
     document.querySelectorAll(".slider").forEach((sliderEl) => {
         const swiperContainer = sliderEl.querySelector(".swiper");
         const arrowLeft = sliderEl.querySelector(".swiper-button-prev");
@@ -40,48 +40,46 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         swipers.push(swiper);
-        directions.push(1); // изначально движение вперёд
+        directions.push(1);
 
-          
         window.addEventListener('mousemove', (event) => {
             handleMouseMove(event, sliderEl);
         });
-        
     });
 
-    // Последовательное движение туда-сюда
+    // следим за ресайзом окна
+    window.addEventListener("resize", () => {
+        autoplayEnabled = window.innerWidth <= 768;
+    });
+
+    // функция ping-pong с проверкой ширины
     async function runSequencePingPong() {
         while (true) {
+
+            // Если экран > 992, ждём и ничего не листаем
+            if (!autoplayEnabled) {
+                await new Promise(res => setTimeout(res, 300));
+                continue;
+            }
+
             for (let i = 0; i < swipers.length; i++) {
                 const swiper = swipers[i];
 
-                // Проверяем, есть ли вообще возможность листать
-                if (swiper.slides.length <= swiper.params.slidesPerView) {
-                    continue; // пропускаем этот слайдер, он не листается
-                }
+                if (swiper.slides.length <= swiper.params.slidesPerView) continue;
 
-                // Проверяем направление и границы
                 if (directions[i] === 1 && swiper.isEnd) {
-                    directions[i] = -1; // достиг конца → меняем направление на назад
+                    directions[i] = -1;
                 } else if (directions[i] === -1 && swiper.isBeginning) {
-                    directions[i] = 1; // достиг начала → меняем направление на вперёд
+                    directions[i] = 1;
                 }
 
-                // Листаем в нужном направлении
-                if (directions[i] === 1) {
-                    swiper.slideNext();
-                } else {
-                    swiper.slidePrev();
-                }
+                directions[i] === 1 ? swiper.slideNext() : swiper.slidePrev();
 
-                // Ждём 2 секунды только если этот слайдер листался
                 await new Promise(res => setTimeout(res, 2000));
             }
         }
     }
 
-
-    // Запуск
     runSequencePingPong();
 
 
