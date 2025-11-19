@@ -60,7 +60,7 @@ svg{
 
 .container {
 	margin-inline: auto;
-	min-inline-size: rem(320);
+	min-inline-size: rem(280);
 	max-inline-size: var(--container-width);
 	padding-inline: var(--container-padding-desktop);
 	@include lg {

@@ -98,7 +98,7 @@ svg {
 
 .container {
   margin-inline: auto;
-  min-inline-size: 20rem;
+  min-inline-size: 17.5rem;
   max-inline-size: var(--container-width);
   padding-inline: var(--container-padding-desktop);
 }
