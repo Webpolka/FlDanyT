@@ -189,218 +189,164 @@ document.addEventListener("DOMContentLoaded", () => {
     // Expects CSS to use: transform: translateX(var(--bannersPos));
     // and classes: .dragging, .returning, .at-edge, .wiggle-slow
     // CSS must define transition for .returning (using --animationDuration), wiggle-slow is keyframes.
-
     (function () {
         const customSlider = document.querySelector(".custom-slider");
         if (!customSlider) return;
 
-        // config
-        const startPercent = -31.85;
-        let currentPercent = startPercent;
-        const minPercent = -65;
-        const maxPercent = 1.4;
-        const sensitivity = 2.0; // multiplier for drag sensitivity
-        const holdDuration = 5000; // ms to hold at edge
+        // --- CONFIG ---
+        const positions = { left: -65, center: -31.85, right: 1.4 };
+        let currentPos = positions.center;
+        const sensitivity = 2.0;
+        const holdDuration = 5000;
 
-        // internal state
+        // --- STATE ---
         let isDown = false;
         let moved = false;
         let startX = 0;
-        let dragStartPercent = startPercent;
+        let dragStartPos = positions.center;
         let edgeTimeout = null;
-        let returnTimer = null; // timer for finishing return and adding wiggle
+        let returnTimer = null;
 
         const sliderLinks = customSlider.querySelectorAll("a");
 
-        // read animation duration from CSS variable, robust parsing
+        // --- HELPERS ---
+        function setPos(percent) {
+            customSlider.style.setProperty("--bannersPos", percent + "%");
+        }
+
+        function clearTimers() {
+            if (edgeTimeout) { clearTimeout(edgeTimeout); edgeTimeout = null; }
+            if (returnTimer) { clearTimeout(returnTimer); returnTimer = null; }
+        }
+
         function readAnimationDuration() {
             const raw = getComputedStyle(customSlider).getPropertyValue("--animationDuration")
-                || getComputedStyle(document.documentElement).getPropertyValue("--animationDuration")
-                || "";
+                || getComputedStyle(document.documentElement).getPropertyValue("--animationDuration") || "";
             const s = raw.trim();
             if (!s) return 1000;
             if (s.endsWith("ms")) return parseFloat(s);
             if (s.endsWith("s")) return parseFloat(s) * 1000;
-            // fallback numeric
             const n = parseFloat(s);
             return Number.isFinite(n) ? n : 1000;
         }
 
-        // helper to set CSS variable position
-        function setPos(percent) {
-            customSlider.style.setProperty("--bannersPos", percent + "%");
+        // --- ANIMATION FUNCTIONS ---
+        function animateTo(pos, callback) {
+            clearTimers();
+            currentPos = pos;
+            dragStartPos = pos;
+            moved = false;
 
-        }
+            setPos(pos);
+            customSlider.classList.add("returning");
+            customSlider.classList.remove("wiggle-slow", "at-edge");
 
-        function clearReturnTimer() {
-            if (returnTimer) {
-                clearTimeout(returnTimer);
+            const duration = readAnimationDuration();
+            const safety = 40;
+
+            returnTimer = setTimeout(() => {
+                customSlider.classList.remove("returning");
                 returnTimer = null;
-            }
-        }
-        function clearEdgeTimeout() {
-            if (edgeTimeout) {
-                clearTimeout(edgeTimeout);
-                edgeTimeout = null;
-            }
+                if (callback) callback();
+            }, duration + safety);
         }
 
-        // === START DRAG ===
+        function animateReturnToCenter() {
+            animateTo(positions.center, () => {
+                customSlider.classList.add("wiggle-slow");
+            });
+        }
+
+        function holdAtEdge(pos) {
+            animateTo(pos, () => {
+                customSlider.classList.add("at-edge");
+                edgeTimeout = setTimeout(() => {
+                    customSlider.classList.remove("at-edge");
+                    edgeTimeout = null;
+                    animateReturnToCenter();
+                }, holdDuration);
+            });
+        }
+
+        // --- DRAG HANDLERS ---
         function startDrag(x) {
             isDown = true;
             moved = false;
+            clearTimers();
 
-            // stop any auto-return / wiggle timers and classes
-            clearEdgeTimeout();
-            clearReturnTimer();
             customSlider.classList.remove("returning", "wiggle-slow", "at-edge");
+            customSlider.classList.add("dragging");
 
             startX = x;
-            dragStartPercent = currentPercent;
-
-            // visual state
-            customSlider.classList.add("dragging");
+            dragStartPos = currentPos;
         }
 
-        // === MOVE DRAG ===
         function moveDrag(x) {
             if (!isDown) return;
 
             const delta = x - startX;
             if (Math.abs(delta) > 2) moved = true;
 
-            // disable links while dragging
-            sliderLinks.forEach(a => (a.style.pointerEvents = "none"));
+            sliderLinks.forEach(a => a.style.pointerEvents = "none");
 
-            let deltaPercent = (delta / customSlider.offsetWidth) * 100;
-            deltaPercent *= sensitivity;
+            let deltaPercent = (delta / customSlider.offsetWidth) * 100 * sensitivity;
+            currentPos = dragStartPos + deltaPercent;
 
-            currentPercent = dragStartPercent + deltaPercent;
+            if (currentPos < positions.left) currentPos = positions.left;
+            if (currentPos > positions.right) currentPos = positions.right;
 
-            if (currentPercent < minPercent) currentPercent = minPercent;
-            if (currentPercent > maxPercent) currentPercent = maxPercent;
-
-            setPos(currentPercent);
+            setPos(currentPos);
         }
 
-        // === ANIMATE RETURN TO CENTER (uses CSS .returning) ===
-        function animateReturnToCenter() {
-            // stop timers
-            clearEdgeTimeout();
-            clearReturnTimer();
-
-            // set logical state
-            currentPercent = startPercent;
-            dragStartPercent = startPercent;
-            moved = false;
-
-            // set CSS variable and trigger transition class
-            setPos(startPercent);
-
-            // add returning class which must have CSS transition for transform
-            customSlider.classList.add("returning");
-
-            // schedule end-of-transition actions based on CSS duration
-            const duration = readAnimationDuration();
-            const safety = 40; // small extra ms
-
-            // clear previous timer if any
-            clearReturnTimer();
-
-            returnTimer = setTimeout(() => {
-                returnTimer = null;
-                customSlider.classList.remove("returning");
-                // after smooth return, start wiggle animation (CSS keyframes)
-                customSlider.classList.add("wiggle-slow");
-                // remove inline transform control? we keep using --bannersPos, wiggle CSS should use transform relative to original position
-                // note: we intentionally keep --bannersPos set to startPercent so keyframe can reference it if needed
-            }, Math.max(0, duration) + safety);
-        }
-
-        // === SNAP TO EDGE (animate to min/max then hold) ===
-        function snapToEdge(edgePercent) {
-            // stop timers
-            clearEdgeTimeout();
-            clearReturnTimer();
-
-            // set target
-            currentPercent = edgePercent;
-            dragStartPercent = edgePercent;
-            moved = false;
-
-            // apply pos and add returning class to animate
-            setPos(edgePercent);
-            customSlider.classList.add("returning");
-
-            // when snapped, mark at-edge and start hold timer
-            // wait for transition to finish (use CSS duration + safety)
-            const duration = readAnimationDuration();
-            const safety = 40;
-
-            // schedule: after transition -> remove returning, set at-edge state (no wiggle yet)
-            clearReturnTimer();
-            returnTimer = setTimeout(() => {
-                returnTimer = null;
-                customSlider.classList.remove("returning");
-                customSlider.classList.remove("wiggle-slow"); // ensure wiggle not active while holding
-                customSlider.classList.add("at-edge");
-
-                // hold for holdDuration then return to center
-                clearEdgeTimeout();
-                edgeTimeout = setTimeout(() => {
-                    customSlider.classList.remove("at-edge");
-                    edgeTimeout = null;
-                    animateReturnToCenter();
-                }, holdDuration);
-            }, Math.max(0, duration) + safety);
-        }
-
-        // === END DRAG with snapping logic ===
         function endDrag() {
             if (!isDown) return;
             isDown = false;
 
-            // re-enable links
-            sliderLinks.forEach(a => (a.style.pointerEvents = ""));
-
+            sliderLinks.forEach(a => a.style.pointerEvents = "");
             customSlider.classList.remove("dragging");
 
-            // compute snap thresholds (midpoints)
-            const leftSnapPoint = (startPercent + minPercent) / 2;
-            const rightSnapPoint = (startPercent + maxPercent) / 2;
+            // Если не было движения — ничего не делаем
+            if (!moved) return;
 
-            if (currentPercent <= leftSnapPoint) {
-                // snap left
-                snapToEdge(minPercent);
-                return;
-            } else if (currentPercent >= rightSnapPoint) {
-                // snap right
-                snapToEdge(maxPercent);
-                return;
-            } else {
-                // didn't reach half -> return center
-                animateReturnToCenter();
-                return;
+            const delta = currentPos - dragStartPos;
+
+            // --- ДОПУСТИМЫЕ НАПРАВЛЕНИЯ ---
+            const canSwipeLeft = dragStartPos !== positions.left;
+            const canSwipeRight = dragStartPos !== positions.right;
+
+            // Свайп влево
+            if (delta < 0 && canSwipeLeft) {
+                if (dragStartPos === positions.center) {
+                    holdAtEdge(positions.left);
+                } else if (dragStartPos === positions.right) {
+                    animateReturnToCenter();
+                }
             }
+            // Свайп вправо
+            else if (delta > 0 && canSwipeRight) {
+                if (dragStartPos === positions.center) {
+                    holdAtEdge(positions.right);
+                } else if (dragStartPos === positions.left) {
+                    animateReturnToCenter();
+                }
+            }
+            // Свайпы в сторону, где край уже достигнут — ничего не делаем
         }
 
-        // === CLICK HANDLER: if simple click while at-edge -> cancel hold and return ===
+        // --- CLICK HANDLER ---
         function clickHandler(e) {
-            if (moved) {
-                e.preventDefault();
-                return;
-            }
+            // Если не было движения — игнорируем клик
+            if (!moved) return;
 
             if (customSlider.classList.contains("at-edge")) {
-                // cancel hold and go to center immediately
-                clearEdgeTimeout();
+                clearTimers();
                 customSlider.classList.remove("at-edge");
                 animateReturnToCenter();
                 e.preventDefault();
             }
         }
 
-        // === Event wrappers ===
+        // --- TOUCH & MOUSE EVENTS ---
         function touchStart(e) { if (e.touches && e.touches[0]) startDrag(e.touches[0].clientX); }
         function touchMove(e) { if (e.touches && e.touches[0]) { e.preventDefault(); moveDrag(e.touches[0].clientX); } }
         function touchEnd() { endDrag(); }
@@ -417,15 +363,12 @@ document.addEventListener("DOMContentLoaded", () => {
             document.removeEventListener("mouseup", mouseEnd);
         }
 
-        // === Enable / Disable ===
+        // --- ENABLE/DISABLE ---
         function enableSlider() {
-            // initialize CSS var and classes
-            setPos(startPercent);
-
+            setPos(positions.center);
             customSlider.classList.remove("returning", "dragging", "at-edge");
             customSlider.classList.add("wiggle-slow");
 
-            // listeners
             customSlider.addEventListener("touchstart", touchStart, { passive: false });
             customSlider.addEventListener("touchmove", touchMove, { passive: false });
             customSlider.addEventListener("touchend", touchEnd);
@@ -445,21 +388,20 @@ document.addEventListener("DOMContentLoaded", () => {
             customSlider.classList.remove("dragging", "returning", "at-edge", "wiggle-slow");
             customSlider.style.removeProperty("--bannersPos");
 
-            clearEdgeTimeout();
-            clearReturnTimer();
+            clearTimers();
         }
 
-        // === Screen check (mobile only) ===
+        // --- SCREEN CHECK ---
         function handleScreen() {
             if (window.matchMedia("(max-width: 576px)").matches) enableSlider();
             else disableSlider();
         }
 
-        // init
+        // --- INIT ---
         window.addEventListener("load", handleScreen);
         window.addEventListener("resize", handleScreen);
         window.addEventListener("orientationchange", handleScreen);
-
     })();
+
 
 })

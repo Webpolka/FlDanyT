@@ -234,7 +234,6 @@ Back to top button
 CUSTOM Banner slider 
 --------------------------------------------------------------------------------------------------------------------------------*/
 :root {
-  --bannersPos: -31.85%;
   --animationDuration: 500ms;
 }
 
@@ -292,7 +291,6 @@ CUSTOM Banner slider
 
 .custom-slider {
   /* position/size as needed */
-  --bannersPos: -31.85%;
   /* base: no transition (we control via class) */
   transition: none;
   display: flex; /* или flex / inline-block - не inline */
@@ -719,6 +717,7 @@ MEDIAQUERIES
     width: 33.33%;
   }
   .custom-slider {
+    --bannersPos: -31.85%;
     transform: translateX(var(--bannersPos));
   }
   .footer {
