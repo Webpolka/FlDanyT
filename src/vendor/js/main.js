@@ -41,6 +41,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         swipers.push(swiper);
         directions.push(1); // изначально движение вперёд
+
+          
+        window.addEventListener('mousemove', (event) => {
+            handleMouseMove(event, sliderEl);
+        });
+        
     });
 
     // Последовательное движение туда-сюда
