@@ -32,46 +32,6 @@
         <main class="main">
             <div class="container">
                 <div class="custom">
-                    <div class="popup" id="popup">
-
-                        <div class="popup__window">
-                            <div class="popup__close">
-                                <svg class="icon icon--close">
-                                    <use href="./icons/symbol/sprite.svg#close"></use>
-                                </svg>
-                            </div>
-
-                            <div class="popup__content">
-                                <div class="sliderModal">
-                                    <!-- Swiper Slider -->
-                                    <div class="swiper" id="popupSlider">
-                                        <div class="swiper-wrapper">
-                                            <!-- Слайды будут динамически добавляться через JS -->
-                                        </div>
-                                    </div>
-
-                                    <!-- Стрелки -->
-                                    <div class="swiper-button-prev">
-                                        <svg class="icon icon--left">
-                                            <use href="./icons/symbol/sprite.svg#left"></use>
-                                        </svg>
-                                    </div>
-                                    <div class="swiper-button-next">
-                                        <svg class="icon icon--right">
-                                            <use href="./icons/symbol/sprite.svg#right"></use>
-                                        </svg>
-                                    </div>
-                                    <!-- Пагинация -->
-                                    <div class="swiper-pagination"></div>
-                                </div>
-
-                                <div class="popup__title" id="popupTitle"></div>
-                            </div>
-
-
-                        </div>
-                    </div>
-
                     <!-- Telegram button -->
                     <a href="https://example.com" class="telegram">
                         <svg class="icon icon--tg">
@@ -349,6 +309,45 @@
             <use href="./icons/symbol/sprite.svg#up"></use>
         </svg>
     </button>
+    <div class="popup" id="popup">
+
+        <div class="popup__window">
+            <div class="popup__close">
+                <svg class="icon icon--close">
+                    <use href="./icons/symbol/sprite.svg#close"></use>
+                </svg>
+            </div>
+
+            <div class="popup__content">
+                <div class="sliderModal">
+                    <!-- Swiper Slider -->
+                    <div class="swiper" id="popupSlider">
+                        <div class="swiper-wrapper">
+                            <!-- Слайды будут динамически добавляться через JS -->
+                        </div>
+                    </div>
+
+                    <!-- Стрелки -->
+                    <div class="swiper-button-prev">
+                        <svg class="icon icon--left">
+                            <use href="./icons/symbol/sprite.svg#left"></use>
+                        </svg>
+                    </div>
+                    <div class="swiper-button-next">
+                        <svg class="icon icon--right">
+                            <use href="./icons/symbol/sprite.svg#right"></use>
+                        </svg>
+                    </div>
+                    <!-- Пагинация -->
+                    <div class="swiper-pagination"></div>
+                </div>
+
+                <div class="popup__title" id="popupTitle"></div>
+            </div>
+
+
+        </div>
+    </div>
 
     <script src="vendor/js/helpers.js"></script>
     <script src="vendor/js/bootstrap.js"></script>

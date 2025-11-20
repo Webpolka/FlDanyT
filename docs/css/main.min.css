@@ -384,14 +384,14 @@ HEADER
 POPUP Swiper
 ------------------------------------------------------------------------------------------------------------------ */
 .popup {
-  position: absolute;
+  position: fixed;
   top: 3.125rem;
   left: 0;
   width: 100%;
   height: 100vh;
   opacity: 0;
   visibility: hidden;
-  z-index: 9000;
+  z-index: 10000;
   transition: all 1s ease-in-out;
 }
 
@@ -402,15 +402,17 @@ POPUP Swiper
 
 .popup__window {
   position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 9999;
   background: #fff;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  max-width: calc(var(--container-width) - 1.875rem - var(--container-padding-desktop));
   width: 100%;
-  max-width: 90rem;
   min-height: calc(100vh - 4.375rem);
-  padding: 5rem 2.8125rem 1.875rem 2.8125rem;
+  padding: 3.75rem 2.8125rem 1.875rem 2.8125rem;
   transition: opacity 0.25s ease, transform 0.25s ease;
   border-bottom: 0.0625rem solid rgba(0, 150, 211, 0.25);
   box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.2);
@@ -450,7 +452,7 @@ POPUP Swiper
   font-size: 1.5rem;
   font-weight: bold;
   color: var(--text);
-  padding-top: 3.75rem;
+  padding-top: 1.5625rem;
 }
 
 /* ---------------------- Swiper ---------------------- */
@@ -633,14 +635,11 @@ KEYFRAMES
 MEDIAQUERIES 
 --------------------------------------------------------------------------------------------------------------------------------*/
 @media (max-width: 1200px){
-  .popup {
-    top: -0.9375rem;
-  }
   .popup__window {
     padding: 3.75rem 2.8125rem 1.5625rem 2.8125rem;
   }
   .popup__title {
-    padding-top: 2.5rem;
+    padding-top: 1.5625rem;
   }
 }
 @media (max-width: 992px){
@@ -661,6 +660,7 @@ MEDIAQUERIES
   }
   .popup__window {
     padding: 1.875rem;
+    max-width: calc(100% - 0.9375rem - var(--container-padding-large));
   }
   .popup__title {
     font-size: 1.375rem;
@@ -736,6 +736,7 @@ MEDIAQUERIES
   }
   .popup__window {
     padding: 0.9375rem;
+    max-width: calc(100% - var(--container-padding-small));
   }
   .popup__title {
     font-size: 0.9375rem;
