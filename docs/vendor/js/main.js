@@ -87,74 +87,161 @@ document.addEventListener("DOMContentLoaded", () => {
    POPUP SLIDER
     ----------------------------------------------------------------------------------------------------------------*/
 
-    let popupSwiper = null;
-    const popup = document.getElementById("popup");
+    const popup = document.querySelector(".popup");
     const popupSliderEl = document.querySelector("#popupSlider .swiper-wrapper");
     const popupTitle = document.getElementById("popupTitle");
     const popupClose = popup.querySelector(".popup__close");
 
-    function openPopup(images, title) {
-        popupTitle.textContent = title;
+    let popupSwiper = null;
+
+    // Массив для хранения данных слайдов
+    const slidesData = [];
+    const preloadedImages = [];
+
+    // Находим все product-slide на странице
+    document.querySelectorAll(".product-slide").forEach((slideEl, index) => {
+        const images = JSON.parse(slideEl.dataset.images);
+        const title = slideEl.dataset.title;
+
+        slidesData.push({ title, images });
+
+        // Предзагружаем изображения
+        const imgs = images.map(src => {
+            const img = new Image();
+            img.src = src;
+            return img;
+        });
+        preloadedImages.push(imgs);
+
+        // Добавляем обработчик клика на слайд
+        slideEl.addEventListener("click", () => openPopup(index));
+    });
+
+    function openPopup(index) {
+        const item = slidesData[index];
+        if (!item) return;
+
+        popupTitle.textContent = item.title;
         popupSliderEl.innerHTML = "";
 
         if (popupSwiper) popupSwiper.destroy(true, true);
 
-
-        // Добавляем слайды
-        let loaded = 0;
-        images.forEach((src) => {
+        // Добавляем предзагруженные изображения
+        preloadedImages[index].forEach(img => {
             const slide = document.createElement("div");
-            const variant = document.createElement("div");
-            variant.className = "product-variant";
             slide.className = "swiper-slide";
 
-            const img = document.createElement("img");
-            img.src = src;
-            img.onload = () => {
-                loaded++;
-                if (loaded === images.length) initSwiper(); // запускаем только когда ВСЕ картинки загружены
-            };
-            variant.appendChild(img);
+            const variant = document.createElement("div");
+            variant.className = "product-variant";
+            variant.appendChild(img.cloneNode());
 
             slide.appendChild(variant);
             popupSliderEl.appendChild(slide);
         });
 
-
         popup.classList.add("show");
 
-
-        function initSwiper() {
-            // Теперь и только теперь инициализируем Swiper
-            popupSwiper = new Swiper("#popupSlider", {
-                slidesPerView: 1,
-                spaceBetween: 20,
-                slidesPerGroup: 1,
-                centeredSlides: false,
-
-                navigation: {
-                    nextEl: popup.querySelector(".swiper-button-next"),
-                    prevEl: popup.querySelector(".swiper-button-prev")
-                },
-                pagination: {
-                    el: popup.querySelector(".swiper-pagination"),
-                    clickable: true
-                },
-                breakpoints: {
-                    0: { slidesPerView: 1, spaceBetween: 10 },
-                    440: { slidesPerView: 2, spaceBetween: 15 },
-                    768: { slidesPerView: 3, spaceBetween: 20 }
-                }
-
-            });
-        }
+        initSwiper();
     }
+
+    function initSwiper() {
+        popupSwiper = new Swiper("#popupSlider", {
+            slidesPerView: 1,
+            spaceBetween: 20,
+            slidesPerGroup: 1,
+            navigation: {
+                nextEl: popup.querySelector(".swiper-button-next"),
+                prevEl: popup.querySelector(".swiper-button-prev")
+            },
+            pagination: {
+                el: popup.querySelector(".swiper-pagination"),
+                clickable: true
+            },
+            breakpoints: {
+                0: { slidesPerView: 1, spaceBetween: 10 },
+                440: { slidesPerView: 2, spaceBetween: 15 },
+                768: { slidesPerView: 3, spaceBetween: 20 }
+            }
+        });
+    }
+
+    // Закрытие попапа
+    popupClose.addEventListener("click", closePopup);
 
     function closePopup() {
         popup.classList.remove("show");
         setTimeout(() => { popupTitle.textContent = "" }, 650);
 
     }
+
+    // let popupSwiper = null;
+    // const popup = document.getElementById("popup");
+    // const popupSliderEl = document.querySelector("#popupSlider .swiper-wrapper");
+    // const popupTitle = document.getElementById("popupTitle");
+    // const popupClose = popup.querySelector(".popup__close");
+
+    // function openPopup(images, title) {
+    //     popupTitle.textContent = title;
+    //     popupSliderEl.innerHTML = "";
+
+    //     if (popupSwiper) popupSwiper.destroy(true, true);
+
+
+    //     // Добавляем слайды
+    //     let loaded = 0;
+    //     images.forEach((src) => {
+    //         const slide = document.createElement("div");
+    //         const variant = document.createElement("div");
+    //         variant.className = "product-variant";
+    //         slide.className = "swiper-slide";
+
+    //         const img = document.createElement("img");
+    //         img.src = src;
+    //         img.onload = () => {
+    //             loaded++;
+    //             if (loaded === images.length) initSwiper(); // запускаем только когда ВСЕ картинки загружены
+    //         };
+    //         variant.appendChild(img);
+
+    //         slide.appendChild(variant);
+    //         popupSliderEl.appendChild(slide);
+    //     });
+
+
+    //     popup.classList.add("show");
+
+
+    //     function initSwiper() {
+    //         // Теперь и только теперь инициализируем Swiper
+    //         popupSwiper = new Swiper("#popupSlider", {
+    //             slidesPerView: 1,
+    //             spaceBetween: 20,
+    //             slidesPerGroup: 1,
+    //             centeredSlides: false,
+
+    //             navigation: {
+    //                 nextEl: popup.querySelector(".swiper-button-next"),
+    //                 prevEl: popup.querySelector(".swiper-button-prev")
+    //             },
+    //             pagination: {
+    //                 el: popup.querySelector(".swiper-pagination"),
+    //                 clickable: true
+    //             },
+    //             breakpoints: {
+    //                 0: { slidesPerView: 1, spaceBetween: 10 },
+    //                 440: { slidesPerView: 2, spaceBetween: 15 },
+    //                 768: { slidesPerView: 3, spaceBetween: 20 }
+    //             }
+
+    //         });
+    //     }
+    // }
+
+    // function closePopup() {
+    //     popup.classList.remove("show");
+    //     setTimeout(() => { popupTitle.textContent = "" }, 650);
+
+    // }
 
     document.querySelectorAll(".product-slide").forEach((item) => {
         item.addEventListener("click", () => {
