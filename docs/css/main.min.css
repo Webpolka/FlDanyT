@@ -10,7 +10,7 @@
 ROOT
 --------------------------------------------------------------------------------------------------------------------------------*/
 :root {
-  --container-width: 78.125rem;
+  --container-width: 79.375rem;
   --container-padding-desktop: 1.875rem;
   --container-padding-large: 0.9375rem;
   --container-padding-small: 0;
@@ -362,7 +362,7 @@ HEADER
 .header {
   position: sticky;
   top: 0;
-  z-index: 12000;
+  z-index: 11000;
   background-color: var(--accent);
 }
 .header .logo {
@@ -388,11 +388,13 @@ POPUP Swiper
   top: 3.125rem;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - 3.1875rem);
   opacity: 0;
   visibility: hidden;
-  z-index: 10000;
-  transition: all 1s ease-in-out;
+  z-index: 13000;
+  transition-property: opacity visibility;
+  transition-duration: 0.7s;
+  transition-timing-function: ease-in-out;
 }
 
 .popup.show {
@@ -401,14 +403,12 @@ POPUP Swiper
 }
 
 .popup__window {
-  position: absolute;
+  position: relative;
   left: 50%;
   transform: translateX(-50%);
   z-index: 9999;
   background: #fff;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  height: 100%;
   max-width: calc(var(--container-width) - 1.875rem - var(--container-padding-desktop));
   width: 100%;
   min-height: calc(100vh - 4.375rem);
@@ -419,6 +419,10 @@ POPUP Swiper
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
+}
+
+.popup__title {
+  flex-shrink: 1;
 }
 
 .popup__close {
@@ -449,10 +453,61 @@ POPUP Swiper
 }
 
 .popup__title {
+  position: relative;
+  z-index: 10000;
   font-size: 1.5rem;
   font-weight: bold;
   color: var(--text);
-  padding-top: 1.5625rem;
+  padding-top: 1.25rem;
+  padding-bottom: 0.625rem;
+}
+
+.popup__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.popup__center {
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* критично! */
+}
+
+.sliderModal {
+  height: calc(100% - 3.375rem);
+}
+.sliderModal .swiper-slide {
+  height: 100%;
+}
+.sliderModal .swiper-slide .product-variant {
+  width: 100%;
+  height: 100%;
+  border: 0.0625rem solid transparent;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
+.sliderModal .swiper-slide .product-variant:hover {
+  border: 0.0625rem solid rgba(0, 150, 211, 0.25);
+}
+.sliderModal .swiper-slide img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover; /* ровно твой эффект crop */
+  -o-object-position: center;
+     object-position: center; /* центрируется */
+  display: block;
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.sliderModal .swiper,
+.sliderModal .swiper-wrapper,
+.sliderModal .swiper-slide {
+  height: 100%;
 }
 
 /* ---------------------- Swiper ---------------------- */
@@ -460,14 +515,10 @@ POPUP Swiper
   --swiper-navigation-sides-offset: -1.5625rem;
 }
 
-.sliderModal,
 .slider {
   position: relative;
 }
-.sliderModal .product-slide,
-.sliderModal .product-variant,
-.slider .product-slide,
-.slider .product-variant {
+.slider .product-slide {
   display: block;
   border-radius: 0.75rem;
   border: 0.0625rem solid transparent;
@@ -475,16 +526,10 @@ POPUP Swiper
   overflow: hidden;
   transition: all 0.3s ease-in-out;
 }
-.sliderModal .product-slide:hover,
-.sliderModal .product-variant:hover,
-.slider .product-slide:hover,
-.slider .product-variant:hover {
+.slider .product-slide:hover {
   border: 0.0625rem solid rgba(0, 150, 211, 0.25);
 }
-.sliderModal .product-slide img,
-.sliderModal .product-variant img,
-.slider .product-slide img,
-.slider .product-variant img {
+.slider .product-slide img {
   display: block;
   width: 100%;
   height: auto;
@@ -492,33 +537,11 @@ POPUP Swiper
      object-fit: cover;
   overflow: hidden;
 }
-.sliderModal.hovered .swiper-button-prev,
 .slider.hovered .swiper-button-prev {
   transform: translateX(0);
 }
-.sliderModal.hovered .swiper-button-next,
 .slider.hovered .swiper-button-next {
   transform: translateX(0);
-}
-
-.swiper.product-variant {
-  display: block;
-  border-radius: 0.75rem;
-  overflow: hidden;
-  border: 0.0625rem solid transparent;
-  transition: all 0.3s ease-in-out;
-}
-
-.swiper.product-variant:hover {
-  border: 0.0625rem solid rgba(0, 150, 211, 0.25);
-}
-
-.swiper.product-variant img {
-  display: block;
-  width: 100%;
-  height: auto;
-  -o-object-fit: cover;
-     object-fit: cover;
 }
 
 /* Стрелки Swiper */
@@ -587,11 +610,14 @@ POPUP Swiper
   opacity: 1;
 }
 
+.sliderModal {
+  max-height: inherit;
+}
 .sliderModal .swiper-button-prev {
-  transform: translateX(0);
+  transform: translate(0, -50%);
 }
 .sliderModal .swiper-button-next {
-  transform: translateX(0);
+  transform: translate(0, -50%);
 }
 
 /* ------------------------------------------------------------------------------------------------------------------------------
@@ -637,9 +663,6 @@ MEDIAQUERIES
 @media (max-width: 1200px){
   .popup__window {
     padding: 3.75rem 2.8125rem 1.5625rem 2.8125rem;
-  }
-  .popup__title {
-    padding-top: 1.5625rem;
   }
 }
 @media (max-width: 992px){
@@ -739,8 +762,8 @@ MEDIAQUERIES
     max-width: calc(100% - var(--container-padding-small));
   }
   .popup__title {
-    font-size: 0.9375rem;
     padding-top: 0.3125rem;
+    font-size: 0.9375rem;
   }
   .swiper-button-prev,
   .swiper-button-next {

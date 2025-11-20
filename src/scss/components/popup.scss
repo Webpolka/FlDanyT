@@ -3,15 +3,17 @@ POPUP Swiper
 ------------------------------------------------------------------------------------------------------------------ */
 .popup {
 	position: fixed;
-	top: 50px;	
+	top: 50px;
 	left: 0;
 	width: 100%;
-	height: 100vh;
+	height: calc(100vh - 51px);
 	opacity: 0;
 	visibility: hidden;
-	z-index: 10000;
-	transition: all 1s ease-in-out;
-	
+	z-index: 13000;
+	transition-property: opacity visibility;
+	transition-duration: 0.7s;
+	transition-timing-function: ease-in-out;
+	// overflow: hidden;
 }
 
 .popup.show {
@@ -20,16 +22,13 @@ POPUP Swiper
 }
 
 .popup__window {
-	position: absolute;
+	position: relative;
 	left: 50%;
 	transform: translateX(-50%);
 
 	z-index: 9999;
 	background: #fff;
-
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
+	height: 100%;
 
 	max-width: calc(var(--container-width) - 30px - var(--container-padding-desktop));
 	width: 100%;
@@ -42,7 +41,7 @@ POPUP Swiper
 
 	@include xl {
 		padding: 60px 45px 25px 45px;
-	} 
+	}
 
 	@include lg {
 		padding: 30px;
@@ -53,6 +52,10 @@ POPUP Swiper
 		padding: 15px;
 		max-width: calc(100% - var(--container-padding-small));
 	}
+}
+
+.popup__title {	
+	flex-shrink: 1;
 }
 
 .popup__close {
@@ -82,19 +85,69 @@ POPUP Swiper
 	transition: fill 0.3s ease-in-out;
 }
 .popup__title {
+	position: relative;
+	z-index: 10000;
 	font-size: 24px;
 	font-weight: bold;
 	color: var(--text);
-	padding-top: 25px;
+	
+	padding-top: 20px;
+	padding-bottom: 10px;
 
-	@include xl {
-		padding-top: 25px;
-	}
 	@include lg {
 		font-size: 22px;
 	}
 	@include sm {
-		font-size: 15px;
 		padding-top: 5px;
+		font-size: 15px;
 	}
+}
+
+.popup__content {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: 100%;
+}
+
+.popup__center {
+	display: flex;
+	flex-direction: column;	
+	min-height: 0; /* критично! */
+}
+
+.sliderModal {		
+	height: calc(100% - 54px);
+	
+	.swiper-slide {	
+		height: 100%;		
+
+		.product-variant {
+			width: 100%;
+			height: 100%;			
+			border: 1px solid transparent;
+			border-radius: 12px;
+			overflow: hidden;			
+			transition: all 0.3s ease-in-out;
+
+			&:hover {
+				border: 1px solid rgba(0, 150, 211, 0.25);
+			}
+		}
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover; /* ровно твой эффект crop */
+			object-position: center; /* центрируется */
+			display: block;
+			border-radius: 12px;
+			overflow: hidden;
+		}
+	}
+}
+
+.sliderModal .swiper,
+.sliderModal .swiper-wrapper,
+.sliderModal .swiper-slide {
+	height: 100%;
 }

@@ -131,6 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 spaceBetween: 20,
                 slidesPerGroup: 1,
                 centeredSlides: false,
+
                 navigation: {
                     nextEl: popup.querySelector(".swiper-button-next"),
                     prevEl: popup.querySelector(".swiper-button-prev")
@@ -147,8 +148,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             });
         }
-        // Скролл
-        // window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function closePopup() {
@@ -407,5 +406,4 @@ document.addEventListener("DOMContentLoaded", () => {
         window.addEventListener("orientationchange", handleScreen);
     })();
 
-
-})
+});
